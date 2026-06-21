@@ -27,7 +27,7 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
-.challenges.txt
+challenges.txt
 
 # Coverage
 coverage/
