@@ -1,0 +1,8 @@
+1. problem with normal jwt token based authentication. solved using access and refresh token
+2. problem with db architecture. to make db architecture smooth i was creating a seprate usercredential schema and utilizing it in client and worker schema but as things become complex, it's become hard to perform crud opereations as structure becomed complex. so solved it by directly destructuring userschema in client and worker schema. and also as their is multiple unqiue key so mongodb created multiple index and it become harded to login using only mail or mobile as by default: null consider duplicate key for different records. solved it using mongodb property sparse: true. sparse helps to index only documents that actually contains the specific field(refer to unique fields), If a document is missing the field, it is entirely omitted from the index.
+3. 
+
+
+common question:
+->What's your approach to learn new technologies?
+-->To learn new technologies, earlier i prefer to watch yt videos and if their is not video regarding this then some third party sites.. but after gaining some experiences i realised it's better to directly visit official docs page as in dev community, every tools has it's own personal website that contains documatation page which shows everythigs that this tool can do.

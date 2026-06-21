@@ -1,0 +1,151 @@
+const { mongoose } = require("../config/db");
+
+const addressSchema = new mongoose.Schema({
+    label: {
+        type: String,
+        default: "Home"
+    },
+    street: String,
+    city: String,
+    state: String,
+    country: {
+        type: String,
+        default: "India"
+    },
+    zip: String,
+    isDefault: {
+        type: Boolean,
+        default: false
+    }
+}, { _id: false });
+
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    mail: {
+        id: {
+            type: String,
+            unique: true,
+            trim: true,
+            lowercase: true,
+            sparse: true
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
+    },
+    mobile: {
+        number: {
+            type: Number,
+            unique: true,
+            sparse: true
+        },
+
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
+    },
+    password: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String
+    },
+    dateOfBirth: {
+        type: Date,
+        default: null
+    },
+    gender: {
+        type: String,
+        enum: ["Male", "Female", "Other"],
+        default: "Other"
+    }
+}, { _id: false });
+
+const clientSchema = new mongoose.Schema({
+    ...userSchema.obj,
+    addresses: {
+        type: [addressSchema],
+        default: []
+    },
+    role: {
+        type: String,
+        default: "client"
+    }
+}, { timestamps: true });
+
+const workerSchema = new mongoose.Schema({
+    ...userSchema.obj,
+    category: {
+        type: String,
+        enum: ["Plumber", "Electrician", "Carpenter", "Painter", "Cleaner", "Gardener", "Other"],
+        trim: true
+    },
+    alternateMobile: {
+        number: {
+            type: Number,
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
+    },
+    address: addressSchema,
+    role: {
+        type: String,
+        default: "worker"
+    },
+    status: {
+        type: String,
+        enum: ["active", "inactive"],
+        default: "active"
+    },
+    aadhar: {
+        number: {
+            type: String,
+            unique: true,
+            sparse: true
+        },
+        isVerified: {
+            type: Boolean,
+            default: false
+        }
+    },
+    // review stores average rating and total number of reviews
+    rating: {
+        average: {
+            type: Number,
+            default: 0
+        },
+        count: {
+            type: Number,
+            default: 0
+        }
+    },
+
+}, { timestamps: true });
+
+const SessionSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
+    refreshTokenHash: String,
+    expiresAt: Date
+});
+// console.log("User: Loading Task model");
+// console.log(mongoose.modelNames());
+const Client = mongoose.model("Client", clientSchema);
+const Worker = mongoose.model("Worker", workerSchema);
+const Session = mongoose.model("Session", SessionSchema);
+
+module.exports = {
+    Client,
+    Worker,
+    Session
+}
