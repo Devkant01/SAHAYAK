@@ -1,9 +1,27 @@
 const { Client, Worker, Session } = require('../../models/user');
 
 async function getProfileController(req, res) {
-    res.json({
-        user: req.user
-    })
+    try {
+        const model = req.user.role === 'client' ? Client : Worker;
+        const user = await model.findById(req.user.objectId, {'_id': 0, 'password': 0, '__v': 0});
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        res.status(200).json({
+            message: 'User profile retrieved successfully',
+            user: {
+                objectId: user._id,
+                name: user.name,
+                key: user.mail?.id || user.mobile?.number,
+                role: user.role,
+                image: user.image || null
+            }
+        });
+    }
+    catch (err) {
+        console.log("Error in controller/user~getProfileController", err);
+        res.status(500).json({ error: 'Server error' });
+    }
 }
 
 async function updateProfileController(req, res) {
@@ -22,9 +40,11 @@ async function updateProfileController(req, res) {
         }
         res.status(200).json({
             user: {
+                objectId: updatedUser._id,
                 name: updatedUser.name,
                 key: updatedUser.mail?.id || updatedUser.mobile?.number,
                 role: updatedUser.role,
+                image: updatedUser.image || null
             }
         });
     } catch (err) {

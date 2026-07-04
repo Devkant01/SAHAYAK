@@ -1,6 +1,12 @@
 import { ArrowRight } from "lucide-react";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 function CallToAction() {
+    const user = useSelector((state) => state.user);
+    // const useDispatch = useDispatch();
+
+    // handleClick = (role) => {
     return (
         <section
             id="cta"
@@ -16,12 +22,12 @@ function CallToAction() {
                 </p>
 
                 <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-                    <button className="flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-teal-700">
+                    <button onClick={() => handleClick(client)} className="flex items-center justify-center gap-2 rounded-xl bg-white px-6 py-3 text-teal-700 cursor-pointer">
                         Post a Task
                         <ArrowRight className="h-4 w-4" />
                     </button>
 
-                    <button className="rounded-xl border border-white/40 px-6 py-3 text-white">
+                    <button onClick={() => handleClick(worker)} className="rounded-xl border border-white/40 px-6 py-3 text-white cursor-pointer">
                         Become a Provider
                     </button>
                 </div>

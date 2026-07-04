@@ -1,6 +1,6 @@
 const app = require("express").Router();
 const { authenticateToken } = require("../middlewares/authenticate");
-const { VerifyAadharController, VerifyAadharOtpController } = require("../controllers/worker/worker");
+const { VerifyAadharController, VerifyAadharOtpController } = require("../controllers/worker/aadharAuth");
 const { profileController, markTaskCompletedController } = require("../controllers/worker/worker");
 
 

@@ -36,11 +36,12 @@ const sessionManagement = async (res, statusCode, user) => {
         maxAge: 30 * 24 * 60 * 60 * 1000
     });
 
-    // response data should NOT include objectId
+    // response data should NOT include objectId!! but why
     const data = {
+        objectId: user._id,
         name: user.name,
         key: user.mail?.id || user.mobile?.number,
-        role: user.role,
+        role: user.role
     };
 
     return res.status(statusCode).json({

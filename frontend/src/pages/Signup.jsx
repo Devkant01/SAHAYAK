@@ -1,18 +1,26 @@
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserRole } from "../features/authRole/authRoleSlice";
 import RoleSelector from "../components/RoleSelector";
+import SignupForm from "../components/auth/SignupForm";
 
 function Signup() {
-    const Navigate = useNavigate();
-
-    const HandleRoleSelection = (role) => {
-        Navigate(`/signup/${role}`);
+    const Dispatch = useDispatch();
+    const role = useSelector((state) => state.role.role);
+    const handleRoleSelection = (role) => {
+        Dispatch(setUserRole(role));
     };
 
     return (
-        <RoleSelector
-            onSelect={HandleRoleSelection}
-            loginLink="/login"
-        />
+        <>
+            <RoleSelector
+                onSelect={handleRoleSelection}
+                loginLink="/signup"
+                display={`${role ? "hidden" : ""}`}
+            />
+
+            {role && <SignupForm role={role} />}
+        </>
     );
 }
 

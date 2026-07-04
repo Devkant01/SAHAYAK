@@ -5,6 +5,7 @@ import Signup from "../pages/Signup";
 import Dashboard from "../pages/Dashboard";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
+import Profile from "../pages/Profile";
 
 function AppRoutes() {
     return (
@@ -12,6 +13,7 @@ function AppRoutes() {
             <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/profile" element={<Profile />} />
             </Route>
             
             <Route element={<AuthLayout />}>

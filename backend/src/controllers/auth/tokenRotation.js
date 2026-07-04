@@ -65,6 +65,10 @@ async function refreshToken(req, res) {
 
         return res.status(200).json({
             success: true,
+            user: {
+                ...payload,
+                image: user.image || null
+            },
             accessToken:
                 NewAccessToken
         });

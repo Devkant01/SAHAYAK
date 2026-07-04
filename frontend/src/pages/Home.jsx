@@ -10,8 +10,6 @@ import Testimonials from "../components/home/Testimonials";
 import CallToAction from "../components/home/CallToAction";
 
 function Home() {
-    const count = useSelector((state) => state.count.count);
-    const dispatch = useDispatch();
     return (
         <main>
             <Hero />

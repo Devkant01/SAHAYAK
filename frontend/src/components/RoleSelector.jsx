@@ -1,9 +1,9 @@
 import { Briefcase, UserRound } from "lucide-react";
+import { Link } from "react-router-dom"
 
 function RoleSelector({
-    title,
-    subtitle,
     onSelect,
+    display = "block",
     // loginLink = "/login",
 }) {
     const HandleSelect = (role) => {
@@ -11,12 +11,12 @@ function RoleSelector({
     };
 
     return (
-        <div className="min-h-screen bg-linear-to-b from-teal-50 to-white">
+        <div className={`${display} min-h-screen bg-linear-to-b from-teal-50 to-white`}>
             <div className="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900">
+                    <Link to={"/"} className="text-3xl font-bold text-slate-900">
                         Sahayak
-                    </h1>
+                    </Link>
                 </div>
 
                 <div className="flex flex-1 flex-col items-center justify-center">

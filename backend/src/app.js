@@ -7,7 +7,11 @@ const workerRoutes = require('./routes/worker');
 const cookieParser = require("cookie-parser"); //now we can access cookies via req.cookies
 
 const app = express();
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:5173", // Replace with your frontend URL
+    credentials: true, // Allow cookies to be sent
+})
+)
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(cookieParser()); // Middleware to parse cookies
 

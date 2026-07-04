@@ -26,7 +26,7 @@ async function profileController(req, res) {
     res.json({
         worker: worker,
         assignedTasks: assignedTasks,
-        completedTasks: completedTask
+        completedTasks: completedTasks
     });
 }
 
@@ -77,7 +77,6 @@ async function getMyTasksController(req, res) {
 
 module.exports = {
     profileController,
-    acceptTaskController,
     markTaskCompletedController,
     getAvailableTasksController,
     getMyTasksController
