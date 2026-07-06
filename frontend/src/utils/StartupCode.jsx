@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 
-import { setCredentials } from "../features/user/userSlice";
+import { setCredentials, setAuthLoading } from "../features/user/userSlice";
 
 function StartupCode() {
     const Dispatch = useDispatch();
@@ -28,6 +28,8 @@ function StartupCode() {
                 console.log(
                     "No active session"
                 );
+            }finally {
+                Dispatch(setAuthLoading(false));
             }
         }
 

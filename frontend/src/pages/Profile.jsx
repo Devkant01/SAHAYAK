@@ -10,7 +10,6 @@ import AddressSection from "../components/profile/AddressSection";
 function Profile() {
   const [user, setUser] = useState(null);
   const { accessToken } = useSelector((state) => state.user);
-
   useEffect(() => {
     async function fetchUser() {
       const res = await axios.get("/user/get-profile", {
@@ -19,7 +18,7 @@ function Profile() {
         },
         withCredentials: true,
       });
-      setUser(res.data);
+      setUser(res.data.user);
       console.log(res.data);
     }
 

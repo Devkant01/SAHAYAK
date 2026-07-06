@@ -7,6 +7,7 @@ import {
     Wrench,
     Zap,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const TrustIndicators = [
     {
@@ -18,12 +19,12 @@ const TrustIndicators = [
         label: "Secure Platform",
     },
     {
-        icon: Clock,
-        label: "Fast Hiring",
-    },
-    {
         icon: MessageSquareQuote,
         label: "Trusted Reviews",
+    },
+    {
+        icon: Clock,
+        label: "Fast Hiring",
     },
 ];
 
@@ -54,13 +55,17 @@ function Hero() {
                     </p>
 
                     <div className="flex flex-col gap-3 sm:flex-row">
-                        <button className="rounded-xl bg-teal-600 px-6 py-3.5 font-semibold text-white hover:bg-teal-700">
+                        <Link to="/publish-task" className="cursor-pointer">
+                        <button className="rounded-xl bg-teal-600 px-6 py-3.5 font-semibold text-white hover:bg-teal-700 cursor-pointer">
                             Post a Task
-                        </button>
+                            </button>
+                        </Link>
 
-                        <button className="rounded-xl border border-slate-200 bg-white px-6 py-3.5 font-semibold text-slate-800 hover:bg-slate-50">
-                            Browse Services
-                        </button>
+                        <Link to="/login?role=worker" className="cursor-pointer">
+                        <button className="rounded-xl border border-slate-200 bg-white px-6 py-3.5 font-semibold text-slate-800 hover:bg-slate-50 cursor-pointer">
+                            Become a Provider
+                            </button>
+                        </Link>
                     </div>
 
                     <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">

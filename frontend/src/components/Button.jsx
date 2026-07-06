@@ -18,7 +18,7 @@ export default function Button({
 
     return (
         <button
-            className={`${BaseStyle} ${Variants[variant]} ${className}`}
+            className={`${BaseStyle} ${Variants[variant]} ${className} cursor-pointer`}
             {...props}
         >
             {children}

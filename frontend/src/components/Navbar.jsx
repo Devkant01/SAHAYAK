@@ -39,27 +39,11 @@ export default function Navbar() {
             : WorkerLinks
         : NavLinks;
 
-    async function HandleLogout() {
-        try {
-            const response = await axios.post(
-                "/auth/logout",
-                {},
-                {
-                    withCredentials: true,
-                }
-            );
-            console.log(response.data);
-        } catch (err) {
-            console.log("Logout failed", err);
-        } finally {
-            dispatch(logout());
-        }
-        navigate("/");
-    }
+    
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-            <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+            <nav className="mx-auto grid max-w-7xl grid-cols-4 items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
                 <Link
                     to="/"
@@ -74,23 +58,23 @@ export default function Navbar() {
                     </span>
                 </Link>
 
-                <ul className="hidden items-center gap-8 md:flex">
+                <ul className="hidden items-center justify-center gap-8 md:flex col-span-2">
                     {NavItems.map((link) => (
                         <li key={link.label}>
-                            <a
-                                href={link.href}
+                            <Link
+                                to={link.href}
                                 className={`text-sm font-semibold transition-colors hover:text-teal-700 ${currentPath === link.href
                                     ? "text-teal-700"
                                     : "text-slate-600"
                                     }`}
                             >
                                 {link.label}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>
 
-                <div className="hidden items-center gap-3 md:flex">
+                <div className="hidden items-center justify-end gap-3 md:flex">
                     {!user.isAuthenticated ? (
                         <>
                             <Link to="/login">
@@ -113,12 +97,16 @@ export default function Navbar() {
 
                             <Link
                                 to="/profile"
-                                className="flex items-center gap-2"
+                                className={`group flex items-center gap-2 rounded-full border-slate-200 bg-white px-1.5 py-1.5 transition-all duration-300 ease-in-out hover:border-teal-700 hover:bg-teal-50 hover:shadow-sm ${currentPath === "/profile" ? "border border-teal-700 bg-teal-50 shadow-sm" : ""}`}
+                                title={user.credentials?.name}
                             >
-                                <span className="font-medium text-slate-700">
-                                    {user.credentials?.name}
-                                </span>
-                                    <img src={user.credentials?.image || `https://api.dicebear.com/9.x/personas/svg?seed=${user.credentials?.name}`} className="h-8 w-8 text-slate-700 rounded-2xl" />
+                                    <span className={`whitespace-nowrap overflow-hidden text-sm font-medium text-slate-700 transition-all duration-300 ease-in-out ${currentPath === "/profile" ? "max-w-50 opacity-100 translate-x-0" : "max-w-0 opacity-0 translate-x-2 group-hover:max-w-50 group-hover:opacity-100 group-hover:translate-x-0"}`}>
+                                        Hi, {user.credentials?.name}
+                                    </span>
+                                    <img
+                                        src={user.credentials?.image || `https://api.dicebear.com/9.x/personas/svg?seed=${user.credentials?.name}`}
+                                        className={`h-8 w-8 rounded-full border-slate-200 object-cover shadow-sm transition-transform duration-300 ${currentPath === "/profile" ? "scale-105 border-teal-300" : "group-hover:scale-105 group-hover:border-teal-300"}`}
+                                    />
                             
                             </Link>
 

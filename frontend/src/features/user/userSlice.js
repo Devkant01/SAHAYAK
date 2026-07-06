@@ -5,6 +5,7 @@ const initialState = {
     accessToken: null,
     userRole: null,
     isAuthenticated: false,
+    authLoading: true
 };
 
 const userSlice = createSlice({
@@ -32,6 +33,9 @@ const userSlice = createSlice({
             state.userRole = null;
             state.isAuthenticated = false;
         },
+        setAuthLoading: (state, action) => {
+            state.authLoading = action.payload;
+        },
     },
 });
 
@@ -40,6 +44,7 @@ export const {
     setUserRole,
     clearUserRole,
     logout,
+    setAuthLoading
 } = userSlice.actions;
 
 export default userSlice.reducer;
