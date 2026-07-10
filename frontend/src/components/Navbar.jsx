@@ -61,15 +61,28 @@ export default function Navbar() {
                 <ul className="hidden items-center justify-center gap-8 md:flex col-span-2">
                     {NavItems.map((link) => (
                         <li key={link.label}>
-                            <Link
-                                to={link.href}
-                                className={`text-sm font-semibold transition-colors hover:text-teal-700 ${currentPath === link.href
-                                    ? "text-teal-700"
-                                    : "text-slate-600"
-                                    }`}
-                            >
-                                {link.label}
-                            </Link>
+                            {user.isAuthenticated ?
+                                <Link
+                                    to={link.href}
+                                    className={`text-sm font-semibold transition-colors hover:text-teal-700 ${currentPath === link.href
+                                        ? "text-teal-700"
+                                        : "text-slate-600"
+                                        }`}
+                                >
+                                    {link.label}
+                                </Link>
+                             :
+                                <a
+                                    href={link.href}
+                                    className={`text-sm font-semibold transition-colors hover:text-teal-700 ${currentPath === link.href
+                                        ? "text-teal-700"
+                                        : "text-slate-600"
+                                        }`}
+                                >
+                                    {link.label}
+                                </a>
+                            }
+                            
                         </li>
                     ))}
                 </ul>

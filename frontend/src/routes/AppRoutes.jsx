@@ -10,6 +10,7 @@ import AuthLayout from "../layouts/AuthLayout";
 import Loader from "../components/Loader";
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
+import ScrollToTop from "../utils/ScrollToTop";
 
 function AppRoutes() {
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
@@ -21,36 +22,39 @@ function AppRoutes() {
         return <Loader />;
     }
     return (
-        <Routes>
-            <Route element={<MainLayout />}>
-                <Route path="/" element={isAuthenticated
-                    ? <Navigate to="/dashboard" replace />
-                    : <Home />} />
+        <>
+            <ScrollToTop />
+            <Routes>
+                <Route element={<MainLayout />}>
+                    <Route path="/" element={isAuthenticated
+                        ? <Navigate to="/dashboard" replace />
+                        : <Home />} />
 
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/profile" element={<Profile />} />
-                </Route>
-                
+                    <Route element={<ProtectedRoute />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/profile" element={<Profile />} />
+                    </Route>
+
                 //specific to client
-                <Route element={<ClientRoute />}>
-                    <Route path="/publish-task" element={<PublishTask />} />
-                </Route>
+                    <Route element={<ClientRoute />}>
+                        <Route path="/publish-task" element={<PublishTask />} />
+                    </Route>
 
                 //specific to worker
-            </Route>
+                </Route>
 
-            <Route element={<AuthLayout />}>
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-            </Route>
-        </Routes>
+                <Route element={<AuthLayout />}>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                </Route>
+            </Routes>
+        </>
     );
 }
 
 function ProtectedRoute() {
     const user = useSelector((state) => state.user);
-    console.log("protected route:",user);
+    console.log("protected route:", user);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
     console.log("ProtectedRoute: isAuthenticated =", isAuthenticated);
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
