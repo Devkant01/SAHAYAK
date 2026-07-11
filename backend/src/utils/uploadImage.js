@@ -1,14 +1,16 @@
 // utils/cloudinary.js
-const { v2: cloudinary } = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
 const { cloudName, cloudApiKey, cloudApiSecret } = require("../config/config");
 
 cloudinary.config({
-    cloudName,
-    cloudApiKey,
-    cloudApiSecret,
+    cloud_name: cloudName,
+    api_key: cloudApiKey,
+    api_secret: cloudApiSecret,
     secure: true,
 });
+
+// console.log(cloudinary.config());
 
 function uploadOnCloudinary(fileBuffer, folder = "needhlep/tasks") {
     return new Promise((resolve, reject) => {

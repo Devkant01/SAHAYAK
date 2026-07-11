@@ -159,9 +159,8 @@ async function publishTaskController(req, res) {
         const task = new Task({
             title,
             description,
-            price,
-            images: uploadedImages.map(img => ({ url: img.url, public_id: img.public_id })),
             category: normalizedCategory,
+            attachments: uploadedImages.map(img => ({ url: img.url, public_id: img.public_id })),
             createdBy: req.user.objectId
         });
 
