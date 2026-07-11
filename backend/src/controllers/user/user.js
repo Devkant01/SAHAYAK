@@ -9,13 +9,7 @@ async function getProfileController(req, res) {
         }
         res.status(200).json({
             message: 'User profile retrieved successfully',
-            user: {
-                objectId: user._id,
-                name: user.name,
-                key: user.mail?.id || user.mobile?.number,
-                role: user.role,
-                image: user.image || null
-            }
+            user
         });
     }
     catch (err) {
@@ -39,6 +33,7 @@ async function updateProfileController(req, res) {
             return res.status(404).json({ error: 'User not found' });
         }
         res.status(200).json({
+            msg: 'User profile updated successfully',
             user: {
                 objectId: updatedUser._id,
                 name: updatedUser.name,

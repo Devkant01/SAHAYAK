@@ -1,27 +1,96 @@
-function ProfileHeader({ user }) {
-    const Avatar =
-        user.image ||
-        `https://api.dicebear.com/9.x/personas/svg?seed=${user.name}`;
+import React from "react";
+import {
+    Star,
+    Pencil,
+    LogOut,
+    Trash2,
+    ShieldCheck
+} from "lucide-react";
+import Button from "../Button.jsx";
 
+function ProfileHeader({
+    user,
+    onEdit,
+    onLogout,
+    onDelete
+}) {
     return (
-        <div className="rounded-3xl bg-white p-8 shadow-sm">
-            <div className="flex flex-col items-center">
-
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+            <div className="flex flex-col lg:flex-row gap-6 items-center">
                 <img
-                    src={Avatar}
+                    src={
+                        user.image ||
+                        "https://ui-avatars.com/api/?name=" +
+                        encodeURIComponent(user.name)
+                    }
                     alt={user.name}
-                    className="h-32 w-32 rounded-full border-4 border-teal-100 object-cover"
+                    className="w-28 h-28 rounded-full object-cover border-4 border-white shadow-md"
                 />
 
-                <h1 className="mt-4 text-3xl font-bold">
-                    {user.name}
-                </h1>
+                <div className=" flex-1 text-center justify-center lg:text-left">
+                    <div className="flex flex-wrap gap-2 justify-center align-middle lg:justify-start">
+                        <h1 className="text-3xl font-bold">
+                            {user.name}
+                        </h1>
 
-                <p className="mt-2 text-slate-500 capitalize">
-                    {user.role === "client"
-                        ? "Service Seeker"
-                        : "Service Provider"}
-                </p>
+                        <span className="border border-teal-300 bg-teal-50 text-teal-700 px-4 py-0.5 w-fit h-fit my-auto rounded-full text-sm font-semibold">
+                            {user.role}
+                        </span>
+
+                        {user.role === "worker" &&
+                            user.category && (
+                                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
+                                    {user.category}
+                                </span>
+                            )}
+
+                        {user.status && (
+                            <span
+                                className={`px-3 py-1 rounded-full text-sm ${user.status === "active"
+                                        ? "bg-green-100 text-green-700"
+                                        : "bg-red-100 text-red-700"
+                                    }`}
+                            >
+                                {user.status}
+                            </span>
+                        )}
+                    </div>
+
+                    {user.role === "worker" &&
+                        user.rating?.count > 0 && (
+                            <div className="flex items-center gap-2 mt-3 justify-center lg:justify-start">
+                                <Star
+                                    className="fill-yellow-400 text-yellow-400"
+                                    size={18}
+                                />
+
+                                <span className="font-semibold">
+                                    {user.rating.average}
+                                </span>
+
+                                <span className="text-slate-500">
+                                    ({user.rating.count} reviews)
+                                </span>
+                            </div>
+                        )}
+
+                    <div className="flex items-center gap-1 mt-3 justify-center lg:justify-start text-teal-700">
+                        <ShieldCheck size={18} />
+                        <span>
+                            Trusted Member
+                        </span>
+                    </div>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                    <Button
+                        onClick={onEdit}
+                        className="flex items-center gap-2 px-4 py-3 text-white font-semibold"
+                    >
+                        <Pencil size={16} />
+                        Edit Profile
+                    </Button>
+                </div>
             </div>
         </div>
     );

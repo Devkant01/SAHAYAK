@@ -1,52 +1,180 @@
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import axios from "axios";
+
+import {
+  logout
+} from "../features/user/userSlice";
+
 import ProfileHeader from "../components/profile/ProfileHeader";
-import ProfileActions from "../components/profile/ProfileActions";
-import PersonalSection from "../components/profile/PersonalSection";
-import ProfessionalSection from "../components/profile/ProfessionalSection";
-import AddressSection from "../components/profile/AddressSection";
+import PersonalInfoCard from "../components/profile/PersonalInfoCard";
+import VerificationCard from "../components/profile/VerificationCard";
+import WorkerDetailsCard from "../components/profile/WorkerDetailsCard";
+import AddressesSection from "../components/profile/AddressesSection";
+import AccountInfoCard from "../components/profile/AccountInfoCard";
+import DangerZone from "../components/profile/DangerZone";
+import { RefreshToken } from "../utils/RefreshToken";
 
 function Profile() {
-  const [user, setUser] = useState(null);
-  const { accessToken } = useSelector((state) => state.user);
+  const Navigate = useNavigate();
+  const Dispatch = useDispatch();
+
+  const isAuthenticated = useSelector(
+    state => state.user.isAuthenticated
+  );
+  let AccessToken = useSelector(
+    state => state.user.accessToken
+  );
+
+  const [User, setUser] = useState(null);
   useEffect(() => {
-    async function fetchUser() {
-      const res = await axios.get("/user/get-profile", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        withCredentials: true,
-      });
-      setUser(res.data.user);
-      console.log(res.data);
+    if (!isAuthenticated) {
+      Navigate("/login", { replace: true });
     }
 
-    fetchUser();
-  }, [accessToken]);
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get("/user/get-profile", {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${AccessToken}`
+          }
+        });
+        console.log(response.data);
+        setUser(response.data.user);
+      } catch (err) {
+        if (err.response?.status === 401) {
+          console.log("Access token expired, refreshing...");
+          const newAccessToken = await RefreshToken(err);
+          AccessToken = newAccessToken;
+        } else
+          console.log(err);
+      }
+    };
 
-  if (!user) {
+    fetchUserData();
+  }, [isAuthenticated, Navigate, AccessToken, Dispatch]);
+
+
+  async function HandleLogout() {
+    try {
+      await axios.post("/auth/logout", {}, {
+        withCredentials: true,
+      });
+
+      Dispatch(logout());
+      setTimeout(() => {
+        Navigate("/", { replace: true });
+      }, 0);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function HandleDelete() {
+    const ConfirmDelete =
+      window.confirm(
+        "Are you sure you want to delete your account?"
+      );
+
+    if (!ConfirmDelete) return;
+
+    try {
+      await axios.delete(
+        "/user/delete-account",
+        {
+          withCredentials: true
+        }
+      );
+
+      Dispatch(logout());
+
+      Navigate("/", {
+        replace: true
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  function HandleEditProfile() {
+    Navigate("/profile/edit");
+  }
+
+  if (!User) { //useful when the user refreshes the page and the state is lost, but the user is still logged in
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        Loading...
+      <div className="min-h-screen flex items-center justify-center">
+        <p>
+          getting user data...
+        </p>
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="space-y-6">
+          <ProfileHeader
+            user={User}
+            onEdit={
+              HandleEditProfile
+            }
+            onLogout={
+              HandleLogout
+            }
+            onDelete={
+              HandleDelete
+            }
+          />
 
-        <ProfileHeader user={user} />
+          <div className="grid lg:grid-cols-12 gap-6">
+            <div className="lg:col-span-8 space-y-6">
+              <PersonalInfoCard
+                user={
+                  User
+                }
+              />
 
-        <ProfileActions />
+              <WorkerDetailsCard
+                user={
+                  User
+                }
+              />
 
-        <PersonalSection user={user} />
+              <AddressesSection
+                user={
+                  User
+                }
+              />
 
-        <ProfessionalSection user={user} />
+              <DangerZone
+                onLogout={
+                  HandleLogout
+                }
+                onDelete={
+                  HandleDelete
+                }
+              />
+            </div>
 
-        <AddressSection user={user} />
+            <div className="lg:col-span-4 space-y-6">
+              <VerificationCard
+                user={
+                  User
+                }
+              />
 
+              <AccountInfoCard
+                user={
+                  User
+                }
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

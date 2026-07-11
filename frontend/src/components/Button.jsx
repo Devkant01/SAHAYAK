@@ -14,6 +14,8 @@ export default function Button({
         ghost: "text-slate-700 hover:bg-slate-100",
         outline:
             "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
+        danger:
+            "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200",
     };
 
     return (
