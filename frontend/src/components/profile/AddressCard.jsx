@@ -5,14 +5,15 @@ import {
 import { HasValue } from "../../utils/hasValue";
 import ProfileSection from "./ProfileSection";
 
-function AddressCard({ address }) {
+function AddressCard({ address, isDefault }) {
     if (!HasValue(address)) return null;
+
 
     return (
         <div className="border border-slate-200 rounded-xl p-4">
             <div className="flex items-start gap-3">
                 <MapPin
-                    className="text-blue-600 mt-1"
+                    className="text-teal-600 mt-1"
                     size={20}
                 />
 
@@ -23,7 +24,7 @@ function AddressCard({ address }) {
                                 {address.label}
                             </h4>
 
-                            {address.isDefault && (
+                            {isDefault && (
                                 <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
                                     Default
                                 </span>

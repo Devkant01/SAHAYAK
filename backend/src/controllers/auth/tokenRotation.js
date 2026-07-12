@@ -67,7 +67,9 @@ async function refreshToken(req, res) {
             success: true,
             user: {
                 ...payload,
-                image: user.image || null
+                image: user.image || null,
+                defaultAddress: user.defaultAddress || null
+
             },
             accessToken:
                 NewAccessToken

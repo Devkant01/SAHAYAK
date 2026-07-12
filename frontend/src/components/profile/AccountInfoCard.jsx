@@ -11,7 +11,7 @@ function AccountInfoCard({
     return (
         <ProfileSection title="Account Information">
 
-            <div className="space-y-4">
+            <div className="">
                 <div className="p-4 flex items-center justify-between hover:bg-teal-50">
                     <span>
                         Account Type

@@ -99,8 +99,10 @@ function Profile() {
     }
   }
 
+  const [isEditing, setIsEditing] = useState(false);
   function HandleEditProfile() {
-    Navigate("/profile/edit");
+    console.log("Edit profile clicked", isEditing);
+    setIsEditing(!isEditing);
   }
 
   if (!User) { //useful when the user refreshes the page and the state is lost, but the user is still logged in
@@ -112,7 +114,6 @@ function Profile() {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -128,6 +129,7 @@ function Profile() {
             onDelete={
               HandleDelete
             }
+            isEditing={isEditing}
           />
 
           <div className="grid lg:grid-cols-12 gap-6">
@@ -136,6 +138,7 @@ function Profile() {
                 user={
                   User
                 }
+                isEditing={isEditing}
               />
 
               <WorkerDetailsCard

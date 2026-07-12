@@ -12,7 +12,8 @@ function ProfileHeader({
     user,
     onEdit,
     onLogout,
-    onDelete
+    onDelete,
+    isEditing
 }) {
     return (
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
@@ -86,9 +87,9 @@ function ProfileHeader({
                     <Button
                         onClick={onEdit}
                         className="flex items-center gap-2 px-4 py-3 text-white font-semibold"
-                    >
-                        <Pencil size={16} />
-                        Edit Profile
+                    >   
+                        {isEditing ? <LogOut size={16} /> : <Pencil size={16} />}
+                        {isEditing ? "Cancel" : "Edit Profile"}
                     </Button>
                 </div>
             </div>

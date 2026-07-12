@@ -35,6 +35,66 @@ async function getMyTaskController(req, res) {
     }
 }
 
+async function getMyDashboardStats(req, res) {
+    try {
+        if (req.user.role !== 'client') {
+            return res.status(403).json({ error: 'Access denied: clients only' });
+        }
+        const user = await Client.findById(req.user.objectId);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // fetch tasks from Task collection linked by createdBy
+        const tasks = await Task.find({ createdBy: user._id });
+
+        const stats = {
+            TotalTasks: tasks.length || 0,
+            CompletedTasks: tasks.filter(task => task.status === 'completed').length || 0,
+            ActiveTasks: tasks.filter(task => task.status === 'in-progress').length || 0,
+            PendingApplications: tasks.filter(task => task.status === 'pending').length || 0,
+        };
+
+        const activeTasks = tasks.filter(task => task.status === 'in-progress') || [];
+
+        const topWorkers = await Worker.find()
+            .select('name image rating skills location completedJobs')
+            .sort({ rating: -1 })
+            .limit(2);
+
+        const helpers = topWorkers.map(worker => ({
+            _id: worker._id,
+            name: worker.name,
+            image: worker.image || '',
+            rating: worker.rating || 0,
+            skill: worker.skills?.[0] || 'N/A',
+            location: worker.location || '',
+            completedJobs: worker.completedJobs || 0
+        }));
+
+        const emergencyServices = [
+            { name: 'Electrician' },
+            { name: 'Plumber' },
+            { name: 'AC Repair' },
+            { name: 'Carpenter' },
+            { name: 'Cleaning Service' }
+        ];
+
+        res.status(200).json({
+            success: true,
+            data: {
+                Stats: stats,
+                Tasks: activeTasks,
+                Helpers: helpers,
+                Services: emergencyServices
+            }
+        });
+    }
+    catch (err) {
+        console.log("Error in controller/user~getMyDashboardStats", err);
+        res.status(500).json({ error: 'Server error' });
+    }
+}
 
 async function markTaskCompletedController(req, res) {
     const { rating } = req.body;
@@ -102,6 +162,7 @@ async function assignTaskController(req, res) {
 
 module.exports = {
     getMyTaskController,
+    getMyDashboardStats,
     markTaskCompletedController,
     assignTaskController
 };

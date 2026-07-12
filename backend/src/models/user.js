@@ -13,11 +13,20 @@ const addressSchema = new mongoose.Schema({
         default: "India"
     },
     zip: String,
-    isDefault: {
-        type: Boolean,
-        default: false
+
+    location: {
+        type: {
+            type: String,
+            enum: ["Point"],
+            default: "Point"
+        },
+
+        coordinates: {
+            type: [Number],
+            required: true
+        }
     }
-}, { _id: false });
+});
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -65,8 +74,17 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["Male", "Female", "Other"],
         default: "Other"
+    },
+    defaultAddress: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
+        default: null
     }
 }, { _id: false });
+
+// UserSchema.index({
+//     "address.location": "2dsphere"
+// });
 
 const clientSchema = new mongoose.Schema({
     ...userSchema.obj,
@@ -96,7 +114,10 @@ const workerSchema = new mongoose.Schema({
             default: false
         }
     },
-    address: addressSchema,
+    addresses: {
+        type: [addressSchema],
+        default: []
+    },
     role: {
         type: String,
         default: "worker"
