@@ -358,6 +358,20 @@ function UpdateProfile({ user }) {
                         Mobile
                     </span>
 
+                    <span
+                        className={`${Boolean(
+                            user.mobile
+                                ?.number
+                        )
+                            ? "inline"
+                            : "hidden"
+                            } text - xs text - slate - 500`}
+                    >
+                        Number is
+                        unique and cannot be
+                        changed here.
+                    </span>
+
                     <input
                         name="mobile"
                         value={form.mobile}
@@ -381,20 +395,6 @@ function UpdateProfile({ user }) {
                                 : "cursor-text"
                             } focus:border-teal-300 h-12 rounded-xl border-2 outline-none border-slate-300 bg-slate-100 px-4 text-sm text-slate-500`}
                     />
-
-                    <span
-                        className={`${Boolean(
-                            user.mobile
-                                ?.number
-                        )
-                                ? "inline"
-                                : "hidden"
-                            } text - xs text - slate - 500`}
-                    >
-                        Mobile number is
-                        unique and cannot be
-                        changed here.
-                    </span>
                 </label>
 
                 <label className="flex flex-col justify-between">
