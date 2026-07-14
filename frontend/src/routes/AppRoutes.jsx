@@ -4,6 +4,8 @@ import Login from "../pages/Login";
 import Signup from "../pages/Signup";
 import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/Profile";
+import MyTasks from "../pages/MyTasks";
+import TaskDetails from "../pages/TaskDetails";
 import PublishTask from "../pages/PublishTask";
 import MainLayout from "../layouts/MainLayout";
 import AuthLayout from "../layouts/AuthLayout";
@@ -32,7 +34,9 @@ function AppRoutes() {
 
                     <Route element={<ProtectedRoute />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/my-tasks" element={<MyTasks />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/task/:taskId" element={<TaskDetails />} />
                     </Route>
 
                 //specific to client

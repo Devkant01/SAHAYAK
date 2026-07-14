@@ -13,6 +13,7 @@ const NavLinks = [
 
 const ClientLinks = [
     { label: "Dashboard", href: "/dashboard" },
+    { label: "My Tasks", href: "/my-tasks" },
     { label: "Publish Task", href: "/publish-task" },
 ];
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { twMerge } from "tailwind-merge";
 
 export default function Button({
     children,
@@ -21,7 +22,11 @@ export default function Button({
 
     return (
         <button
-            className={`${BaseStyle} ${Variants[variant]} ${className} cursor-pointer`}
+            className={`${twMerge(
+                BaseStyle,
+                Variants[variant],
+                className
+            )} cursor-pointer`}
             {...props}
         >
             {children}

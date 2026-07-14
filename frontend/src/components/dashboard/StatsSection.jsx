@@ -2,7 +2,8 @@ import {
     BriefcaseBusiness,
     CircleCheckBig,
     Clock3,
-    FileText
+    FileText,
+    Hammer
 } from "lucide-react";
 
 export default function StatsSection({
@@ -24,7 +25,7 @@ export default function StatsSection({
         {
             Title: "Active Tasks",
             Value: Stats?.ActiveTasks || 0,
-            Icon: BriefcaseBusiness
+            Icon: Hammer
         },
         {
             Title: "Pending Applications",

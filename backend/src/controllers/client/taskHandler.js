@@ -1,5 +1,5 @@
 const { Task } = require('../../models/task');
-const { Client } = require('../../models/user');
+const { Client, Worker } = require('../../models/user');
 const { deleteFromCloudinary, uploadOnCloudinary } = require('../../utils/uploadImage.js');
 
 async function getMyTasksController(req, res) {
@@ -10,17 +10,46 @@ async function getMyTasksController(req, res) {
             });
         }
 
-        const tasks = await Task.find({ createdBy: req.user.objectId }).select("-createdBy -__v -createdAt -updatedAt");
+        const tasks = await Task.find({ createdBy: req.user.objectId }).select("-createdBy -__v -updatedAt");
         if (tasks.length === 0) {
             return res.status(200).json({
                 message: "No tasks found for this client"
             });
         }
+
+        const WorkerCounts = await Worker.aggregate([
+            {
+                $group: {
+                    _id: "$category",
+                    count: { $sum: 1 }
+                }
+            }
+        ]);
+
+        const CountMap = {};
+
+        WorkerCounts.forEach((item) => {
+            CountMap[item._id] = item.count;
+        });
+
+        const TasksWithCounts = tasks.map((task) => ({
+            ...task.toObject(),
+            availableWorkers: CountMap[task.category] || 0
+        }));
+
         return res.status(200).json({
             message: "Tasks fetched successfully",
-            tasks
+            stats: {
+                total: tasks.length,
+                pending: tasks.filter(task => task.status === "pending").length,
+                active: tasks.filter(task => task.status === "in_progress").length,
+                awaiting_review: tasks.filter(task => task.status === "awaiting_review").length,
+                completed: tasks.filter(task => task.status === "completed").length,    
+            },
+            tasks: TasksWithCounts
         });
     } catch (error) {
+        console.log("Error in controller/task~getMyTasksController", error);
         console.log("Alert! controller/task~getMyTasksController just knocked");
         res.status(500).json({ message: "Internal server error(Fetching tasks from database)" });
     }
