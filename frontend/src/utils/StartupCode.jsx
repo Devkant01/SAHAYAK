@@ -24,6 +24,7 @@ function StartupCode() {
                         Response.data
                     )
                 );
+                console.log("StartupCode: ",Response.data);
             } catch (err) {
                 console.log(
                     "No active session"
