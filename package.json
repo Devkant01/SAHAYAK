@@ -1,0 +1,18 @@
+{
+  "name": "sahayak",
+  "version": "1.0.0",
+  "description": "References:\r     Sanbox: popular Indian Technology Service Provider (TSP) that offers a suite of tax compliance, e-invoicing, and identity verification APIs built specifically for developers and businesses\r     Twilio: It is a cloud communications platform that allows software developers to integrate voice calls, text messages, video, and emails into their own applications.",
+  "main": "index.js",
+  "scripts": {
+    "frontend": "npm --prefix frontend run dev",
+    "backend": "npm --prefix backend run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^10.0.3"
+  }
+}

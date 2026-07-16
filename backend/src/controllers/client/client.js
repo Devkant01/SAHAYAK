@@ -5,33 +5,120 @@ async function getMyTaskController(req, res) {
     try {
         if (req.user.role !== "client") {
             return res.status(403).json({
-                message: "Access denied: You are not authorized to view the tasks"
+                message: "Access denied: You are not authorized to view this task"
             });
         }
+
         const { taskId } = req.params;
-        if (!taskId) return res.status(400).json({ message: "Task id is required" });
 
-        const task = await Task.findOne({ _id: idtaskId, createdBy: req.user.objectId });
-        if (!task) return res.status(404).json({ message: "Task not found or access denied" });
-
-        if (task.status == "pending") {
-            const workers = await Worker.findAll({ category: task.category }, { password: 0, dateOfBirth: 0, __v: 0, createdAt: 0, updatedAt: 0 });
-            const details = {
-                task: task,
-                workers: workers
-            }
-            return res.status(200).json({ message: "Task fetched successfully", details: details });
-        } else { //task.status == "in-progress" || task.status == "completed" || task.status == "awaiting_review"
-            const worker = await Worker.findById(task.assignedTo, { password: 0, dateOfBirth: 0, __v: 0, createdAt: 0, updatedAt: 0 });
-            const details = {
-                task: task,
-                worker: worker
-            }
-            return res.status(200).json({ message: "Task fetched successfully", details: details });
+        if (!taskId) {
+            return res.status(400).json({
+                message: "Task id is required"
+            });
         }
+
+        const task = await Task.findOne({
+            _id: taskId,
+            createdBy: req.user.objectId
+        });
+
+        if (!task) {
+            return res.status(404).json({
+                message: "Task not found or access denied"
+            });
+        }
+
+        const client = await Client.findById(
+            task.createdBy,
+            {
+                password: 0,
+                __v: 0
+            }
+        );
+
+        const ProgressMap = {
+            pending: 25,
+            "in-progress": 60,
+            awaiting_review: 90,
+            completed: 100
+        };
+
+        let availableWorkers = [];
+        let assignedWorker = null;
+
+        if (task.status === "pending") {
+
+            availableWorkers = await Worker.find(
+                {
+                    category: task.category
+                },
+                {
+                    password: 0,
+                    dateOfBirth: 0,
+                    __v: 0,
+                    createdAt: 0,
+                    updatedAt: 0
+                }
+            );
+
+        } else {
+
+            assignedWorker = await Worker.findById(
+                task.assignedTo,
+                {
+                    password: 0,
+                    dateOfBirth: 0,
+                    __v: 0,
+                    createdAt: 0,
+                    updatedAt: 0
+                }
+            );
+
+        }
+
+        const details = {
+            ...task.toObject(),
+
+            location: {
+                address:
+                    client?.defaultAddress || ""
+            },
+
+            progress: {
+                percentage:
+                    ProgressMap[task.status] || 0
+            },
+
+            stats: {
+                matchingWorkers:
+                    availableWorkers.length
+            },
+
+            availableWorkers,
+
+            assignedWorker,
+
+            updates: [],
+
+            review: null
+        };
+
+        return res.status(200).json({
+            success: true,
+            message: "Task fetched successfully",
+            data: details
+        });
+
     } catch (error) {
-        console.log("Alert! controller/task~getMyTasksController just knocked");
-        res.status(500).json({ message: "Internal server error(Fetching tasks from database)" });
+
+        console.log(
+            "Error in controller/task~getMyTaskController",
+            error
+        );
+
+        return res.status(500).json({
+            message: "Internal server error"
+        });
     }
 }
 

@@ -1,9 +1,9 @@
 import useMyTasks from "../hooks/useMyTasks";
 
-import TasksHeader from "../components/tasks/TasksHeader";
-import TaskStats from "../components/tasks/TaskStats";
-import TaskFilters from "../components/tasks/TaskFilters";
-import TaskList from "../components/tasks/TaskList";
+import TasksHeader from "../components/my-tasks/TasksHeader";
+import TaskStats from "../components/my-tasks/TaskStats";
+import TaskFilters from "../components/my-tasks/TaskFilters";
+import TaskList from "../components/my-tasks/TaskList";
 
 export default function MyTasks() {
 
