@@ -42,7 +42,7 @@ async function getMyTasksController(req, res) {
             stats: {
                 total: tasks.length,
                 pending: tasks.filter(task => task.status === "pending").length,
-                active: tasks.filter(task => task.status === "in_progress").length,
+                active: tasks.filter(task => task.status === "in-progress").length,
                 awaiting_review: tasks.filter(task => task.status === "awaiting_review").length,
                 completed: tasks.filter(task => task.status === "completed").length,    
             },

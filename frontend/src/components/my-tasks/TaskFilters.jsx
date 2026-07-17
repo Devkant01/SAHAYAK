@@ -17,7 +17,7 @@ export default function TaskFilters({
         },
         {
             Label: "In Progress",
-            Value: "in_progress",
+            Value: "in-progress",
             Count: Stats?.active || 0
         },
         {
