@@ -49,7 +49,6 @@ async function getMyTasksController(req, res) {
             tasks: TasksWithCounts
         });
     } catch (error) {
-        // kl hata dunga.. sirf github pe streak bana rahe iske liye minor changes kar raha hu
         console.log("Error in controller/task~getMyTasksController", error);
         console.log("Alert! controller/task~getMyTasksController just knocked");
         res.status(500).json({ message: "Internal server error(Fetching tasks from database)" });
