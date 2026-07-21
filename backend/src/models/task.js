@@ -32,6 +32,7 @@ const taskSchema = new mongoose.Schema({
         ref: 'Client',
         required: true
     },
+
     category: {
         type: String,
         enum: ["plumber", "electrician", "carpenter", "painter", "cleaner", "gardener", "other"],

@@ -17,38 +17,64 @@ async function getMyTaskController(req, res) {
             });
         }
 
-        const task = await Task.findOne({
+        const tassk = await Task.findOne({
             _id: taskId,
             createdBy: req.user.objectId
+        }, {
+            __v: 0
         });
 
-        if (!task) {
+        if (!tassk) {
             return res.status(404).json({
                 message: "Task not found or access denied"
             });
         }
 
+
         const client = await Client.findById(
-            task.createdBy,
+            tassk.createdBy,
             {
                 password: 0,
                 __v: 0
             }
         );
 
-        const ProgressMap = {
-            pending: 25,
-            "in-progress": 60,
-            awaiting_review: 90,
-            completed: 100
-        };
+        var location = {};
+        if (client && client.defaultAddress) {
+            const DefaultAddress = client.addresses.find(
+                address => address._id.equals(client.defaultAddress)
+            );
+            location.city = DefaultAddress ? DefaultAddress.city : "";
+            location.state = DefaultAddress ? DefaultAddress.state : "";
+            location.country = DefaultAddress ? DefaultAddress.country : "";
+            location.coordinates = DefaultAddress ? DefaultAddress.location.coordinates : [];
+        }
 
-        let availableWorkers = [];
-        let assignedWorker = null;
+        const expectedStart = tassk.acceptedAt;
+        const hiredAt = tassk.acceptedAt;
+        const progress = {
+            percentage: tassk.status === "pending" ? 25 : tassk.status === "in-progress" ? 60 : tassk.status === "awaiting_review" ? 90 : 100
+        }
+        const currentPhase = tassk.status;
+        const expectedCompletion = tassk.completedAt;
+        const duration = tassk.completedAt && tassk.acceptedAt ? Math.ceil((tassk.completedAt - tassk.acceptedAt) / (1000 * 60 * 60 * 24)) : null;
+        const task = {
+            ...tassk.toObject(),
+            location,
+            expectedStart,
+            hiredAt,
+            progress,
+            currentPhase,
+            expectedCompletion,
+            duration
+        }
+        // Fetch available workers for the task's category if the task is pending
 
-        if (task.status === "pending") {
+        let recommendedWorkers = [];
+        let worker = null;
 
-            availableWorkers = await Worker.find(
+        if(task.status === "pending") {
+            recommendedWorkers = await Worker.find(
                 {
                     category: task.category
                 },
@@ -60,10 +86,8 @@ async function getMyTaskController(req, res) {
                     updatedAt: 0
                 }
             );
-
         } else {
-
-            assignedWorker = await Worker.findById(
+            worker = await Worker.findById(
                 task.assignedTo,
                 {
                     password: 0,
@@ -72,35 +96,20 @@ async function getMyTaskController(req, res) {
                     createdAt: 0,
                     updatedAt: 0
                 }
-            );
-
+            );  
         }
+        
+        let timeline = [];
+        let update = null; //implement it later
+        let review = null; //implement it later
 
         const details = {
-            ...task.toObject(),
-
-            location: {
-                address:
-                    client?.defaultAddress || ""
-            },
-
-            progress: {
-                percentage:
-                    ProgressMap[task.status] || 0
-            },
-
-            stats: {
-                matchingWorkers:
-                    availableWorkers.length
-            },
-
-            availableWorkers,
-
-            assignedWorker,
-
-            updates: [],
-
-            review: null
+            task,
+            worker,
+            recommendedWorkers,
+            timeline,
+            update,
+            review
         };
 
         return res.status(200).json({
