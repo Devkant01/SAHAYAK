@@ -1,6 +1,19 @@
 import { BriefcaseBusiness } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function HeroSection() {
+    const user = useSelector((state) => state.user.credentials);
+    let userName = "";
+    if(user && user.name) {
+        userName = user.name.split(" ")[0];
+    }
+    const currentHour = new Date().getHours();
+    const greeting =
+        currentHour < 12
+            ? "Good morning"
+            : currentHour < 18
+            ? "Good afternoon"
+            : "Good evening";
 
     return (
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-teal-600 via-teal-500 to-teal-600 p-8 text-white shadow-lg">
@@ -16,7 +29,7 @@ export default function HeroSection() {
 
                         <BriefcaseBusiness className="h-4 w-4" />
 
-                        Worker Dashboard
+                        {greeting}{userName != "" && `, ${userName}`} 👋
 
                     </div>
 

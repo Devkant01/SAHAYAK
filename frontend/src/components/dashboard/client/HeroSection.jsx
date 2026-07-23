@@ -1,8 +1,21 @@
 import { Search, Plus, Zap, Wrench, Snowflake, BrushCleaning, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../../Button";
+import { useSelector } from "react-redux";
 
 export default function HeroSection() {
+    const user = useSelector((state) => state.user.credentials);
+    let userName = "";
+    if (user && user.name) {
+        userName = user.name.split(" ")[0];
+    }
+    const currentHour = new Date().getHours();
+    const greeting =
+        currentHour < 12
+            ? "Good morning"
+            : currentHour < 18
+                ? "Good afternoon"
+                : "Good evening";
     const Services = [
         {
             Icon: Zap,
@@ -34,7 +47,7 @@ export default function HeroSection() {
 
                         <UserRound className="h-4 w-4" />
 
-                        Client Dashboard
+                        {greeting}{userName != "" && `, ${userName}`} 👋
 
                     </div>
                     <h1 className="mt-2 text-3xl md:text-4xl font-bold leading-tight">

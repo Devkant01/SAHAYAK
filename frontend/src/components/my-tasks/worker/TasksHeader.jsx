@@ -1,10 +1,12 @@
 import { Plus } from "lucide-react";
 import { Link } from "react-router-dom";
-import Button from "../Button";
+import Button from "../../Button";
+import { useSelector } from "react-redux";
 
 export default function TasksHeader({
     Total
 }) {
+    const role = useSelector((state) => state.user.userRole);
     return (
         <section className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
 
@@ -23,18 +25,19 @@ export default function TasksHeader({
                 </div>
 
                 <p className="mt-2 text-gray-500">
-                    Track, manage, and monitor all your service requests.
+                    {role === "client" ? "Track, manage, and monitor all your service requests." : "Track and manage your assigned work."}
                 </p>
 
             </div>
 
-
-            <Link to="/publish-task">
-            <Button className="px-5 py-3 font-semibold text-xl">
-                <Plus size={18} />
-                Create New Task
-            </Button>
-        </Link>
+            {role == "client" && (
+                <Link to="/publish-task">
+                    <Button className="px-5 py-3 font-semibold text-xl">
+                        <Plus size={18} />
+                        Create New Task
+                    </Button>
+                </Link>
+            )}
 
         </section >
     );

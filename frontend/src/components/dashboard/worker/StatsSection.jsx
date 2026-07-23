@@ -16,25 +16,25 @@ export default function StatsSection({
             Title: "Assigned Tasks",
             Value: Stats?.assignedTasks,
             Icon: ClipboardList,
-            Color: "bg-blue-100 text-blue-600",
+            Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "In Progress",
             Value: Stats?.inProgressTasks,
             Icon: Hammer,
-            Color: "bg-amber-100 text-amber-600",
+            Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "Awaiting Review",
             Value: Stats?.awaitingReviewTasks,
             Icon: Clock3,
-            Color: "bg-purple-100 text-purple-600",
+            Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "Completed",
             Value: Stats?.completedTasks,
             Icon: CircleCheckBig,
-            Color: "bg-emerald-100 text-emerald-600",
+            Color: "bg-teal-50 text-teal-600",
         },
     ];
 

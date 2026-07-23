@@ -19,6 +19,7 @@ const ClientLinks = [
 
 const WorkerLinks = [
     { label: "Dashboard", href: "/dashboard" },
+    { label: "My Tasks", href: "/my-tasks" },
 ];
 
 export default function Navbar() {
