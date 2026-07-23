@@ -29,7 +29,7 @@ function ProfileHeader({
                 />
 
                 <div className=" flex-1 text-center justify-center lg:text-left">
-                    <div className="flex flex-wrap gap-2 justify-center align-middle lg:justify-start">
+                    <div className="flex flex-wrap gap-2 justify-center align-middle items-center lg:justify-start">
                         <h1 className="text-3xl font-bold">
                             {user.name}
                         </h1>
@@ -38,18 +38,18 @@ function ProfileHeader({
                             {user.role}
                         </span>
 
-                        {user.role === "worker" &&
+                        {/* {user.role === "worker" &&
                             user.category && (
-                                <span className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-sm">
+                                <span className="bg-purple-100 text-purple-700 px-4 py-0.5 rounded-full text-sm">
                                     {user.category}
                                 </span>
-                            )}
+                            )} */}
 
                         {user.status && (
                             <span
-                                className={`px-3 py-1 rounded-full text-sm ${user.status === "active"
-                                        ? "bg-green-100 text-green-700"
-                                        : "bg-red-100 text-red-700"
+                                className={`border px-4 py-0.5 rounded-full h-fit w-fit font-semibold text-sm ${user.status === "active"
+                                        ? "bg-green-100 text-green-700 border-green-400"
+                                    : "bg-red-100 text-red-700 border-red-400"
                                     }`}
                             >
                                 {user.status}

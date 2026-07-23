@@ -15,11 +15,11 @@ async function profileController(req, res) {
     }
 
     const assignedTasks = await Task.find({
-        assignedWorker: WorkerId
+        assignedTo: WorkerId
     });
 
     const completedTasks = await Task.find({
-        assignedWorker: WorkerId,
+        assignedTo: WorkerId,
         status: "completed"
     });
 
@@ -38,7 +38,7 @@ async function markTaskCompletedController(req, res) {
 
     const TaskDoc = await Task.findOne({
         _id: taskId,
-        assignedWorker: WorkerId
+        assignedTo: WorkerId
     });
 
     if (!TaskDoc) {
@@ -68,7 +68,7 @@ async function getMyTasksController(req, res) {
     const WorkerId = req.user.objectId;
 
     const Tasks = await Task.find({
-        assignedWorker: WorkerId
+        assignedTo: WorkerId
     });
 
     res.json(Tasks);

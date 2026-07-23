@@ -59,7 +59,7 @@ export default function TaskDetails() {
         <TaskHeroCard task={task} />
 
         <TaskProgressTracker
-          status={task.status}
+          status={task.task.status}
         />
 
         <TaskStatusContent

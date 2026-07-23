@@ -32,6 +32,8 @@ async function updateProfileController(req, res) {
             req.user.objectId
         );
 
+        
+
         if (!UserData) {
             return res.status(404).json({
                 success: false,
@@ -40,6 +42,40 @@ async function updateProfileController(req, res) {
         }
 
         const Updates = {};
+
+        if (req.user.role === "worker") {
+            if (req.body.category) {
+                Updates.category = req.body.category.trim();
+            }
+
+            if (req.body.experience) {
+                Updates.experience =
+                    Number(req.body.experience);
+            }
+
+            if(req.body.bio?.trim()) {
+                Updates.bio = req.body.bio.trim();
+            }
+
+            if (req.body.alternateMobile) {
+                Updates["alternateMobile.number"] =
+                    Number(req.body.alternateMobile);
+            }
+
+            if (req.body.skills) {
+                // accept skills as array or comma-separated string
+                if (Array.isArray(req.body.skills)) {
+                    Updates.skills = req.body.skills
+                        .map((skill) => String(skill).trim())
+                        .filter(Boolean);
+                } else {
+                    Updates.skills = String(req.body.skills)
+                        .split(",")
+                        .map((skill) => skill.trim())
+                        .filter(Boolean);
+                }
+            }
+        }
 
         if (req.body.name?.trim()) {
             Updates.name = req.body.name.trim();

@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { RefreshToken } from "../utils/RefreshToken";
 
-export async function GetDashboardData(
+export async function GetClientDashboardData(
     AccessToken,
     Retried = false
 ) {
@@ -15,7 +16,27 @@ export async function GetDashboardData(
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {
             const newAccessToken = await RefreshToken(err);
-            return GetDashboardData(newAccessToken, true);
+            return GetClientDashboardData(newAccessToken, true);
+        } else
+            throw err;
+    }
+}
+
+export async function GetWorkerDashboardData(
+    AccessToken,
+    Retried = false
+) {
+    try {
+        return axios.get("/worker/dashboardStats", {
+            withCredentials: true,
+            headers: {
+                'Authorization': `Bearer ${AccessToken}`
+            }
+        });
+    } catch (err) {
+        if (err.response?.status === 401 && !Retried) {
+            const newAccessToken = await RefreshToken(err);
+            return GetWorkerDashboardData(newAccessToken, true);
         } else
             throw err;
     }

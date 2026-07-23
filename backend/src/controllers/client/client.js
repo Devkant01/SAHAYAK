@@ -1,5 +1,5 @@
 const { Task } = require('../../models/task');
-const { Client, Worker } = require('../../models/user');
+const { Client, Worker, Review } = require('../../models/user');
 
 async function getMyTaskController(req, res) {
     try {
@@ -72,11 +72,14 @@ async function getMyTaskController(req, res) {
 
         let recommendedWorkers = [];
         let worker = null;
-
-        if(task.status === "pending") {
+        let review = null;
+        if (task.status === "pending") {
             recommendedWorkers = await Worker.find(
                 {
-                    category: task.category
+                    $or: [
+                        { category: task.category },
+                        { category: "other" }
+                    ]
                 },
                 {
                     password: 0,
@@ -96,12 +99,13 @@ async function getMyTaskController(req, res) {
                     createdAt: 0,
                     updatedAt: 0
                 }
-            );  
+            );
         }
-        
+        if (task.status === "completed") {
+            review = await Review.findOne({ taskId: task._id, clientId: req.user.objectId }, { __v: 0, createdAt: 0, updatedAt: 0 });
+        }
         let timeline = [];
         let update = null; //implement it later
-        let review = null; //implement it later
 
         const details = {
             task,

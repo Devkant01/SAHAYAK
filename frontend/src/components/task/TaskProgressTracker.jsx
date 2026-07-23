@@ -29,7 +29,7 @@ const Steps = [
 ];
 
 export default function TaskProgressTracker({ status }) {
-
+    console.log(status);
     const CurrentIndex = Steps.findIndex(
         step => step.key === status
     );
@@ -71,7 +71,7 @@ export default function TaskProgressTracker({ status }) {
                                         ${Completed
                                             ? "border-teal-600 bg-teal-600 text-white"
                                             : Active
-                                                ? "border-teal-600 bg-white text-teal-600 shadow-lg ring-8 ring-teal-100 animate-pulse"
+                                                ? "border-teal-600 bg-white text-teal-600 shadow-lg ring-8 ring-teal-100"
                                                 : "border-slate-300 bg-white text-slate-400"
                                         }
                                     `}

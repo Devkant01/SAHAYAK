@@ -1,3 +1,5 @@
+import WorkerCard from "./WorkerCard";
+
 export default function WorkersGrid({
     workers,
     taskId,

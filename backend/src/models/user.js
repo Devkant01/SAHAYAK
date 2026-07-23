@@ -28,6 +28,43 @@ const addressSchema = new mongoose.Schema({
     }
 });
 
+const reviewSchema = new mongoose.Schema({
+
+    taskId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Task",
+        required: true,
+        unique: true
+    },
+
+    clientId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Client",
+        required: true
+    },
+
+    workerId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Worker",
+        required: true
+    },
+
+    rating: {
+        type: Number,
+        required: true,
+        min: 1,
+        max: 5
+    },
+
+    comment: {
+        type: String,
+        trim: true,
+        maxlength: 500,
+        default: ""
+    }
+
+}, { timestamps: true });
+
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -102,7 +139,7 @@ const workerSchema = new mongoose.Schema({
     ...userSchema.obj,
     category: {
         type: String,
-        enum: ["Plumber", "Electrician", "Carpenter", "Painter", "Cleaner", "Gardener", "Other"],
+        enum: ["plumber", "electrician", "carpenter", "painter", "cleaner", "gardener", "other"],
         trim: true
     },
     alternateMobile: {
@@ -149,6 +186,25 @@ const workerSchema = new mongoose.Schema({
             default: 0
         }
     },
+    bio: {
+        type: String,
+        default: ""
+    },
+
+    experience: {
+        type: Number,
+        default: 0
+    },
+
+    skills: {
+        type: [String],
+        default: []
+    },
+
+    completedJobs: {
+        type: Number,
+        default: 0
+    }
 
 }, { timestamps: true });
 
@@ -164,9 +220,11 @@ const SessionSchema = new mongoose.Schema({
 const Client = mongoose.model("Client", clientSchema);
 const Worker = mongoose.model("Worker", workerSchema);
 const Session = mongoose.model("Session", SessionSchema);
+const Review = mongoose.model("Review", reviewSchema);
 
 module.exports = {
     Client,
     Worker,
-    Session
+    Session,
+    Review
 }

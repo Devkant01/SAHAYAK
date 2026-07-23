@@ -6,14 +6,14 @@ import {
     Phone,
     Star,
 } from "lucide-react";
-import axios from "../../../config/axios";
+import axios from "axios";
 
 export default function WorkerCard({
     worker,
     taskId,
     refetch,
 }) {
-
+    console.log("Rendering WorkerCard for worker:", worker, "with taskId:", taskId, refetch);
     const [loading, setLoading] = useState(false);
     const [contactLoading, setContactLoading] = useState(false);
 
@@ -103,7 +103,7 @@ export default function WorkerCard({
                         className="fill-yellow-400 text-yellow-400"
                     />
 
-                    {worker.rating}
+                    {worker.rating.average}
 
                 </div>
 
@@ -201,6 +201,7 @@ export default function WorkerCard({
                         />
 
                         Professional
+                        {worker.category === "other" ? " Service Provider" : ` ${worker.category}`}
 
                     </div>
 

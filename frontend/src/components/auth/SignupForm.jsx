@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { setCredentials } from "../../features/user/userSlice";
 import axios from "axios";
 
 function SignupForm({ role }) {
@@ -9,6 +12,8 @@ function SignupForm({ role }) {
         password: "",
     });
 
+    const Dispatch = useDispatch();
+    const Navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -40,7 +45,7 @@ function SignupForm({ role }) {
             };
 
             const Response = await axios.post(
-                "/register",
+                "/auth/register",
                 Payload,
                 {
                     withCredentials: true,
@@ -48,7 +53,10 @@ function SignupForm({ role }) {
             );
 
             console.log(Response.data);
-
+            Dispatch(
+                setCredentials(Response.data)
+            );
+            Navigate("/"); //for now
         } catch (err) {
             setError(
                 err?.response?.data?.error ||
