@@ -53,7 +53,7 @@ export default function CompletedWorkerCard({
 
                         <span className="font-semibold">
 
-                            {Worker.rating}
+                            {/* {Worker.rating} */}
 
                         </span>
 

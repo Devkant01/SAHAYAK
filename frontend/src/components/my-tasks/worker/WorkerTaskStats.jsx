@@ -21,7 +21,7 @@ export default function WorkerTaskStats({
         },
         {
             Title: "Active",
-            Value: Stats?.pending || 0,
+            Value: Stats?.active || 0,
             Icon: Clock3
         },
         // {

@@ -26,7 +26,7 @@ export async function GetClientMyTasks(AccessToken, Retried = false) {
 export async function GetWorkerMyTasks(AccessToken, Retried = false) {
     try {
         const res = await axios.get(
-            "/client/my-tasks",
+            "/worker/my-tasks",
             {
                 withCredentials: true,
                 headers: {

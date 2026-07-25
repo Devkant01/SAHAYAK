@@ -18,7 +18,8 @@ import {
 import TaskStatusBadge from "./TaskStatusBadge";
 
 export default function TaskCard({
-    Task
+    Task,
+    WorkerCount
 }) {
     const iconMap = {
         plumber: Wrench,
@@ -78,6 +79,12 @@ export default function TaskCard({
                         <CategoryIcon size={16} />
                         <span className="capitalize">
                             {Task.category}
+                            {/*will implement this later, for now just show the category*/}
+                            {/* {WorkerCount > 0 && (
+                                <span className="ml-1 border-2 text-xs text-gray-400">
+                                    ({WorkerCount} available)
+                                </span>
+                            )} */} 
                         </span>
                     </div>
 
@@ -90,7 +97,7 @@ export default function TaskCard({
                 </div>
 
                 <div className="flex justify-end gap-8 text-sm text-gray-600">
-                    <div title={`Created at: ${Task.createdAt}`}  className="flex items-center gap-2 text-sm text-gray-600">
+                    <div title={`Created at: ${Task.createdAt}`} className="flex items-center gap-2 text-sm text-gray-600">
                         <CalendarDays size={16} />
                         <span >
                             {new Date(

@@ -101,7 +101,7 @@ export default function ReviewSummaryCard({
                 <InfoCard
                     icon={<Star size={20} />}
                     title="Worker Rating"
-                    value={`${Worker.rating} / 5`}
+                    value={`${Worker.rating?.average} / 5`}
                 />
 
             </div>

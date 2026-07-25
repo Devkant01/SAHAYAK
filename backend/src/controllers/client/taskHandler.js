@@ -29,13 +29,18 @@ async function getMyTasksController(req, res) {
         const CountMap = {};
 
         WorkerCounts.forEach((item) => {
-            CountMap[item._id] = item.count;
+            CountMap[normalize(item._id)] = item.count;
         });
 
-        const TasksWithCounts = tasks.map((task) => ({
-            ...task.toObject(),
-            availableWorkers: CountMap[task.category] || 0
-        }));
+        const otherWorkersCount = CountMap.other || 0;
+
+        const TasksWithCounts = tasks.map((task) => {
+            const taskCategory = normalize(task.category);
+            return {
+                ...task.toObject(),
+                availableWorkers: (CountMap[taskCategory] || 0) + otherWorkersCount
+            };
+        });
 
         return res.status(200).json({
             message: "Tasks fetched successfully",

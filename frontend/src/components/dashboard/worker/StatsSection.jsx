@@ -13,26 +13,26 @@ export default function StatsSection({
 
     const Cards = [
         {
-            Title: "Assigned Tasks",
-            Value: Stats?.assignedTasks,
+            Title: "Total Assigned",
+            Value: Stats?.total,
             Icon: ClipboardList,
             Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "In Progress",
-            Value: Stats?.inProgressTasks,
+            Value: Stats?.active,
             Icon: Hammer,
             Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "Awaiting Review",
-            Value: Stats?.awaitingReviewTasks,
+            Value: Stats?.awaiting_review,
             Icon: Clock3,
             Color: "bg-teal-50 text-teal-600",
         },
         {
             Title: "Completed",
-            Value: Stats?.completedTasks,
+            Value: Stats?.completed,
             Icon: CircleCheckBig,
             Color: "bg-teal-50 text-teal-600",
         },

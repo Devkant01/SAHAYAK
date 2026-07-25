@@ -6,7 +6,7 @@ export default function TaskStatusBadge({
         // pending:
         //     "bg-yellow-100 text-yellow-700",
 
-        active:
+        "in-progress":
             "bg-blue-100 text-blue-700",
 
         awaiting_review:
@@ -18,7 +18,7 @@ export default function TaskStatusBadge({
 
     const Labels = {
         // pending: "Pending",
-        active: "Active",
+        "in-progress": "Active",
         awaiting_review:
             "Awaiting Review",
         completed: "Completed"

@@ -9,6 +9,8 @@ import {
 
 export default function AssignedWorkerCard({ task }) {
     const Worker = task.worker;
+    console.log("Worker", Worker);
+    console.log("Task", task);
 
     return (
         <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
@@ -39,7 +41,7 @@ export default function AssignedWorkerCard({ task }) {
                         />
 
                         <span className="font-semibold">
-                            {Worker.rating}
+                            {Worker.rating.average}
                         </span>
                     </div>
                 </div>
@@ -68,7 +70,7 @@ export default function AssignedWorkerCard({ task }) {
                     <InfoCard
                         icon={<Phone size={20} />}
                         title="Contact"
-                        value={Worker.phone}
+                        value={Worker.mobile?.number || "N/A"}
                     />
                 </div>
 

@@ -26,9 +26,10 @@ export default function TaskHeroCard({ task }) {
         other: CircleHelp
     };
     const Task = task.task;
+    const Worker = task.worker;
     const CategoryIcon = iconMap[Task.category?.toLowerCase()] || iconMap.other;
 
-    const TimelineItems = getTimeline(Task);
+    const TimelineItems = getTimeline(Task, Worker);
 
     return (
         <section className="overflow-hidden rounded-3xl border border-teal-100 bg-white shadow-xl">
@@ -156,7 +157,7 @@ function InfoCard({
 
 }
 
-function getTimeline(Task) {
+function getTimeline(Task, Worker) {
 
     switch (Task.status) {
 
@@ -196,7 +197,7 @@ function getTimeline(Task) {
 
                 {
                     title: "Assigned To",
-                    value: Task.workerName,
+                    value: Worker?.name,
                     icon: UserRound,
                 },
 

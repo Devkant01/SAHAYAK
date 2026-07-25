@@ -13,6 +13,7 @@ import {
     CircleHelp,
     Phone
 } from "lucide-react";
+import Button from "../../Button";
 
 
 
@@ -34,7 +35,16 @@ export default function TaskCard({
     const CategoryIcon = iconMap[Task.category?.toLowerCase()] || iconMap.other;
 
     return (
-        <div>
+        <div className={`
+                block group rounded-2xl border bg-white p-5 shadow-sm transition
+
+                ${Task.status === "awaiting_review"
+                ? "border-purple-300 hover:border-purple-400"
+                : "border-gray-200 hover:border-blue-300"
+            }
+
+                hover:shadow-md
+            `}>
             <div className="grid grid-cols-2">
                 <div className="">
                     <h3 className=" text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition">
@@ -95,7 +105,8 @@ export default function TaskCard({
 
             </div>
 
-            {Task.worker && (
+            {/* basic sa sawal: jiska account ushi ko assigned hoga.. faltu code */}
+            {/* {Task.worker && (
                 <div className="mt-4 border-t pt-4">
 
                     <p className="text-sm text-gray-500">
@@ -107,7 +118,7 @@ export default function TaskCard({
                     </p>
 
                 </div>
-            )}
+            )} */}
 
             {Task.status === "awaiting_review" && (
 
@@ -125,37 +136,35 @@ export default function TaskCard({
 
             )}
 
-            <div className="mt-5 flex items-center justify-end">
+            {/* <div className="mt-5 flex items-center justify-end">
 
                 <ArrowRight
                     size={18}
                     className="text-blue-600 group-hover:translate-x-1 transition"
                 />
 
-            </div>
+            </div> */}
 
-            <div className="mt-5 flex justify-between items-center">
-                <Link
-                    to={`/task/${Task._id}`}
-                    className={`
-                block group rounded-2xl border bg-white p-5 shadow-sm transition
+            <div className="mt-5 flex justify-between gap-2 align-middle">
+                <Button className={`w-full group border text-xl shadow-sm transition
 
                 ${Task.status === "awaiting_review"
-                            ? "border-purple-300 hover:border-purple-400"
-                            : "border-gray-200 hover:border-blue-300"
-                        }
+                        ? "border-purple-300 hover:border-purple-400"
+                        : "border-gray-200 hover:border-blue-300"
+                    }
+                                            hover:shadow-md
+                        `}>
+                    <Link
+                        to={`/task/${Task._id}`}
+                    >
+                        View Details {">"}
+                    </Link>
+                </Button>
 
-                hover:shadow-md
-            `}
-                >
-                    View Details {">"}
-                </Link>
-
-                {Task.status === "active" && (
-                    <button className="mt-3 flex items-center justify-center gap-2 w-full bg-green-50 border border-green-200 rounded-lg py-2 text-green-700 hover:bg-green-100 transition">
-                        <Phone size={16} />
-                        Call Client
-                    </button>
+                {Task.status === "in-progress" && (
+                    <Button className="items-center justify-center w-fit border transition">
+                        <Phone size={24} />
+                    </Button>
                 )}
             </div>
         </div>

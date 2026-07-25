@@ -50,11 +50,12 @@ export default function TaskList({
     return (
         <section className="grid gap-5">
 
-            {Tasks.map((Task) => (
+            {Tasks?.map((Task) => (
 
                 <TaskCard
                     key={Task._id}
                     Task={Task}
+                    WorkerCount={Task.availableWorkers}
                 />
 
             ))}

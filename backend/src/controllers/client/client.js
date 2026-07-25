@@ -52,7 +52,7 @@ async function getMyTaskController(req, res) {
 
         const expectedStart = tassk.acceptedAt;
         const hiredAt = tassk.acceptedAt;
-        const progress = {
+        const stats = {
             percentage: tassk.status === "pending" ? 25 : tassk.status === "in-progress" ? 60 : tassk.status === "awaiting_review" ? 90 : 100
         }
         const currentPhase = tassk.status;
@@ -63,7 +63,7 @@ async function getMyTaskController(req, res) {
             location,
             expectedStart,
             hiredAt,
-            progress,
+            stats,
             currentPhase,
             expectedCompletion,
             duration
@@ -166,7 +166,7 @@ async function getMyDashboardStats(req, res) {
             _id: worker._id,
             name: worker.name,
             image: worker.image || '',
-            rating: worker.rating || 0,
+            rating: worker.rating?.average || 0,
             skill: worker.skills?.[0] || 'N/A',
             location: worker.location || '',
             completedJobs: worker.completedJobs || 0
