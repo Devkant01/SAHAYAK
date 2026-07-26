@@ -58,7 +58,7 @@ export default function ClientReviewCard({
 
                     <p className="leading-7 text-slate-700">
 
-                        {review.comment || "No written review was provided."}
+                        {review.review || "No written review was provided."}
 
                     </p>
 
@@ -76,7 +76,13 @@ export default function ClientReviewCard({
 
                         <p className="mt-1 font-medium text-slate-900">
 
-                            {review.createdAt || "--"}
+                            {review.createdAt
+                                ? new Date(review.createdAt).toLocaleDateString("en-Gn", {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                })
+                                : "--"}
 
                         </p>
 

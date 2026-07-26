@@ -102,7 +102,7 @@ async function getMyTaskController(req, res) {
             );
         }
         if (task.status === "completed") {
-            review = await Review.findOne({ taskId: task._id, clientId: req.user.objectId }, { __v: 0, createdAt: 0, updatedAt: 0 });
+            review = await Review.findOne({ taskId: task._id, clientId: req.user.objectId }, { __v: 0, updatedAt: 0 });
         }
         let timeline = [];
         let update = null; //implement it later
@@ -147,15 +147,27 @@ async function getMyDashboardStats(req, res) {
 
         // fetch tasks from Task collection linked by createdBy
         const tasks = await Task.find({ createdBy: user._id });
+        const defaultAddress = user.addresses.find(address => address._id.equals(user.defaultAddress));
+        const result = tasks.map(task => {
+            const location = defaultAddress ? {
+                city: defaultAddress.city,
+                state: defaultAddress.state
+            } : undefined;
+
+            return {
+                ...task.toObject(),
+                location
+            };
+        });
 
         const stats = {
-            TotalTasks: tasks.length || 0,
-            CompletedTasks: tasks.filter(task => task.status === 'completed').length || 0,
-            ActiveTasks: tasks.filter(task => task.status === 'in-progress').length || 0,
-            PendingApplications: tasks.filter(task => task.status === 'pending').length || 0,
+            TotalTasks: result.length || 0,
+            CompletedTasks: result.filter(task => task.status === 'completed').length || 0,
+            ActiveTasks: result.filter(task => task.status === 'in-progress').length || 0,
+            PendingApplications: result.filter(task => task.status === 'pending').length || 0,
         };
 
-        const activeTasks = tasks.filter(task => task.status === 'in-progress') || [];
+        const activeTasks = result.filter(task => task.status === 'in-progress') || [];
 
         const topWorkers = await Worker.find()
             .select('name image rating skills location completedJobs')
@@ -197,7 +209,7 @@ async function getMyDashboardStats(req, res) {
 }
 
 async function markTaskCompletedController(req, res) {
-    const { rating } = req.body;
+    const { rating, review } = req.body;
     try {
         if (req.user.role !== "client") {
             return res.status(403).json({
@@ -218,10 +230,23 @@ async function markTaskCompletedController(req, res) {
         //give review
         const worker = await Worker.findById(task.assignedTo);
         if (worker) {
-            worker.rating = ((worker.rating * worker.totalReviews) + rating) / (worker.totalReviews + 1);
-            worker.totalReviews += 1;
+            worker.rating = {
+                average: ((worker.rating.average * worker.rating.count) + rating) / (worker.rating.count + 1),
+                count: worker.rating.count + 1
+            };
+            worker.completedJobs = worker.completedJobs + 1;
             await worker.save();
         }
+
+        //create review document
+        const newReview = new Review({
+            taskId: task._id,
+            clientId: req.user.objectId,
+            workerId: task.assignedTo,
+            rating,
+            review
+        });
+        await newReview.save();
         res.status(200).json({ message: "Task marked as completed successfully" });
 
     } catch (error) {

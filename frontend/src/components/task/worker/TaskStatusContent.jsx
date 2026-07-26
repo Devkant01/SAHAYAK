@@ -1,27 +1,22 @@
-import PendingSection from "./pending/PendingSection";
 import InProgressSection from "./inprogress/InProgressSection";
 import AwaitingReviewSection from "./review/AwaitingReviewSection";
 import CompletedSection from "./completed/CompletedSection";
 
 export default function TaskStatusContent({
-    task,
+    Task,
+    Client,
+    Review,
+    Timeline,
     refetch,
 }) {
 
-    switch (task.task.status) {
-
-        case "pending":
-            return (
-                <PendingSection
-                    task={task}
-                    refetch={refetch}
-                />
-            );
+    switch (Task?.status) {
 
         case "in-progress":
             return (
                 <InProgressSection
-                    task={task}
+                    Task={Task}
+                    Client={Client}
                     refetch={refetch}
                 />
             );
@@ -29,21 +24,24 @@ export default function TaskStatusContent({
         case "awaiting_review":
             return (
                 <AwaitingReviewSection
-                    task={task}
-                    refetch={refetch}
+                    Task={Task}
+                    Client={Client}
+                    Timeline={Timeline}
                 />
             );
 
         case "completed":
             return (
                 <CompletedSection
-                    task={task}
+                    Task={Task}
+                    Client={Client}
+                    Review={Review}
+                    Timeline={Timeline}
                 />
             );
 
         default:
             return null;
-
     }
 
 }

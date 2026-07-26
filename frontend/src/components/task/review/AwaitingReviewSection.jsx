@@ -3,6 +3,7 @@ import ReviewForm from "./ReviewForm";
 
 export default function AwaitingReviewSection({
     task,
+    refetch,
 }) {
 
     return (
@@ -15,6 +16,7 @@ export default function AwaitingReviewSection({
 
             <ReviewForm
                 task={task}
+                refetch={refetch}
             />
 
         </section>

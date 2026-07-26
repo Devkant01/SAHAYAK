@@ -28,6 +28,7 @@ export default function ActiveTasks({
     Tasks
 }) {
 
+
     if (Loading) {
         return (
             <section>
@@ -49,6 +50,12 @@ export default function ActiveTasks({
             </section>
         );
     }
+
+    const attachments = Array.isArray(Tasks.attachments)
+        ? Tasks.attachments
+        : Tasks.attachments
+            ? [Tasks.attachments]
+            : [];
 
     return (
         <section>
@@ -101,7 +108,7 @@ export default function ActiveTasks({
 
                         <Link
                             key={Task._id}
-                            to={`/tasks/${Task._id}`}
+                            to={`/task/${Task._id}`}
                             className="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-md transition"
                         >
 
@@ -112,19 +119,53 @@ export default function ActiveTasks({
                                 </h3>
 
                                 <span
-                                    className={`rounded-full px-3 py-1 text-xs font-medium ${GetStatusStyles(Task.status)}`}
+                                    className={`rounded px-3 py-1 text-xs font-medium ${GetStatusStyles(Task.status)}`}
                                 >
                                     {Task.status}
                                 </span>
 
                             </div>
 
+                            {Task.attachments.length > 0 ? (
+                                <div className="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
+                                    <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                        Attachments
+                                    </p>
+                                    <div className="flex flex-wrap gap-2">
+                                        {Task.attachments?.slice(0, 3).map((attachment, index) => {
+                                            const href = typeof attachment === "string"
+                                                ? attachment
+                                                : attachment?.url || attachment?.fileUrl || attachment?.link;
+                                            const label = typeof attachment === "string"
+                                                ? attachment.split("/").pop() || `Attachment ${index + 1}`
+                                                : attachment?.name || attachment?.fileName || `Attachment ${index + 1}`;
+
+                                            return href ? (
+                                                <img
+                                                    key={`${href}-${index}`}
+                                                    src={href}
+                                                    alt={label}
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                    className="w-32 h-18 inline-flex items-center rounded border text-xs font-medium text-teal-700 transition hover:bg-teal-50"
+                                                />
+                                            ) : null;
+                                        })}
+                                        {attachments.length > 3 ? (
+                                            <span className="inline-flex items-center rounded-full bg-gray-200 px-3 py-1 text-xs font-medium text-gray-600">
+                                                +{attachments.length - 3} more
+                                            </span>
+                                        ) : null}
+                                    </div>
+                                </div>
+                            ) : null}
+
                             <div className="mt-4 flex items-center gap-2 text-gray-500 text-sm">
                                 <MapPin size={16} />
-                                {Task.location || "Location Not Available"}
+                                {`${Task.location?.city}, ${Task.location?.state}`}
                             </div>
 
-                            <div className="mt-4 flex items-center justify-between">
+                            {/* <div className="mt-4 flex items-center justify-between">
 
                                 <div>
                                     <p className="text-sm text-gray-500">
@@ -149,7 +190,7 @@ export default function ActiveTasks({
                                     </div>
                                 </div>
 
-                            </div>
+                            </div> */}
 
                             <div className="mt-5 flex items-center justify-between border-t pt-4">
 

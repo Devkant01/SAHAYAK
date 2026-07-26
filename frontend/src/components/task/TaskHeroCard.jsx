@@ -40,7 +40,7 @@ export default function TaskHeroCard({ task }) {
 
                     <div className="mb-4 flex flex-wrap items-center gap-3">
 
-                        <span className="rounded-full bg-teal-100 px-4 py-2 uppercase text-sm font-semibold text-teal-700 flex justify-center items-center">
+                        <span className="rounded bg-teal-100 px-4 py-2 uppercase text-sm font-semibold text-teal-700 flex justify-center items-center">
                             <CategoryIcon size={16} className="mr-1 inline-block" />
                             {Task.category}
                         </span>
@@ -70,11 +70,11 @@ export default function TaskHeroCard({ task }) {
                         />
 
                         {
-                            Task.workerName &&
+                            Worker?.name &&
                             <InfoCard
                                 icon={<UserRound size={20} />}
                                 title="Worker"
-                                value={Task.workerName}
+                                value={Worker?.name}
                             />
                         }
 
@@ -82,46 +82,48 @@ export default function TaskHeroCard({ task }) {
 
                 </div>
 
-                <aside className="rounded-2xl bg-slate-50 p-6">
+                {TimelineItems.length > 0 &&
+                    <aside className="rounded-2xl bg-slate-50 p-6">
 
-                    <h3 className="mb-6 text-lg font-semibold">
-                        Timeline
-                    </h3>
+                        <h3 className="mb-6 text-lg font-semibold">
+                            Timeline
+                        </h3>
 
-                    <div className="space-y-6">
+                        <div className="space-y-6">
 
-                        {
-                            TimelineItems.map((item) => (
+                            {
+                                TimelineItems.map((item) => (
 
-                                <div
-                                    key={item.title}
-                                    className="flex gap-4"
-                                >
+                                    <div
+                                        key={item.title}
+                                        className="flex gap-4"
+                                    >
 
-                                    <div className="mt-1 rounded-full bg-teal-100 p-2 text-teal-700">
-                                        <item.icon size={18} />
+                                        <div className="mt-1 rounded-full bg-teal-100 p-2 text-teal-700">
+                                            <item.icon size={18} />
+                                        </div>
+
+                                        <div>
+
+                                            <p className="font-semibold text-slate-800">
+                                                {item.title}
+                                            </p>
+
+                                            <p className="mt-1 text-sm text-slate-500">
+                                                {item.value || "--"}
+                                            </p>
+
+                                        </div>
+
                                     </div>
 
-                                    <div>
+                                ))
+                            }
 
-                                        <p className="font-semibold text-slate-800">
-                                            {item.title}
-                                        </p>
+                        </div>
 
-                                        <p className="mt-1 text-sm text-slate-500">
-                                            {item.value}
-                                        </p>
-
-                                    </div>
-
-                                </div>
-
-                            ))
-                        }
-
-                    </div>
-
-                </aside>
+                    </aside>
+                }
 
             </div>
 
@@ -203,7 +205,7 @@ function getTimeline(Task, Worker) {
 
             ];
 
-        case "awaiting-review":
+        case "awaiting_review":
 
             return [
 

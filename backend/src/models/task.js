@@ -40,7 +40,8 @@ const taskSchema = new mongoose.Schema({
     },
     attachments: [ImageSchema],
     acceptedAt: Date,
-    completedAt: Date
+    submittedAt: Date,
+    completedAt: Date,
 }, { timestamps: true });
 // console.log("Task: Loading Task model");
 // console.log(mongoose.modelNames());

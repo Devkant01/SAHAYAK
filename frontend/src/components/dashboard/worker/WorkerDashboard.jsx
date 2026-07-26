@@ -1,7 +1,7 @@
 import HeroSection from "./HeroSection";
 import StatsSection from "./StatsSection";
 import AssignedTasks from "./AssignedTasks";
-import CompletedTasks from "./CompletedTasks";
+import CompletedTasksReviews from "./CompletedTasksReviews";
 
 import { useWorkerDashboard } from "../../../hooks/useDashboard";
 
@@ -11,7 +11,7 @@ export default function Dashboard() {
         Loading,
         Stats,
         AssignedTasksData,
-        CompletedTasksData,
+        RecentReviews,
     } = useWorkerDashboard();
 
     return (
@@ -31,9 +31,9 @@ export default function Dashboard() {
                     Tasks={AssignedTasksData}
                 />
 
-                <CompletedTasks
+                <CompletedTasksReviews
                     Loading={Loading}
-                    Tasks={CompletedTasksData}
+                    RecentReviews={RecentReviews}
                 />
 
             </div>

@@ -66,7 +66,7 @@ export function useWorkerDashboard() {
 
     const [Stats, setStats] = useState({});
     const [AssignedTasksData, setAssignedTasksData] = useState([]);
-    const [CompletedTasksData, setCompletedTasksData] = useState([]);
+    const [RecentReviews, setRecentReviews] = useState([]);
 
     const AccessToken = useSelector(
         state => state.user.accessToken
@@ -84,12 +84,12 @@ export function useWorkerDashboard() {
             const {
                 Stats,
                 AssignedTasks,
-                CompletedTasks,
+                RecentReviews,
             } = res.data.data;
 
             setStats(Stats);
             setAssignedTasksData(AssignedTasks);
-            setCompletedTasksData(CompletedTasks);
+            setRecentReviews(RecentReviews);
 
         } catch (err) {
 
@@ -106,6 +106,6 @@ export function useWorkerDashboard() {
         Loading,
         Stats,
         AssignedTasksData,
-        CompletedTasksData,
+        RecentReviews,
     };
 }

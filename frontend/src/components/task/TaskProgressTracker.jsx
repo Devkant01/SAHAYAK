@@ -17,7 +17,7 @@ const Steps = [
         icon: Hammer,
     },
     {
-        key: "awaiting-review",
+        key: "awaiting_review",
         title: "Review",
         icon: Star,
     },

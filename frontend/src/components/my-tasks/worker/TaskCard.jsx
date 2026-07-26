@@ -82,7 +82,9 @@ export default function TaskCard({
                     <div className="flex items-center gap-2 text-sm text-gray-600">
                         <MapPin size={16} />
                         <span>
-                            {Task.location || "N/A"}
+                            {Task.createdBy != undefined ?
+                                `${Task.createdBy?.defaultAddress?.city}, ${Task.createdBy?.defaultAddress?.state}` : "N/A"
+                            }
                         </span>
                     </div>
                 </div>
@@ -146,20 +148,22 @@ export default function TaskCard({
             </div> */}
 
             <div className="mt-5 flex justify-between gap-2 align-middle">
-                <Button className={`w-full group border text-xl shadow-sm transition
+                <Link
+                    to={`/task/${Task._id}`}
+                    className="w-full"
+                >
+                    <Button className={`w-full group border text-xl shadow-sm transition
 
                 ${Task.status === "awaiting_review"
-                        ? "border-purple-300 hover:border-purple-400"
-                        : "border-gray-200 hover:border-blue-300"
-                    }
+                            ? "border-purple-300 hover:border-purple-400"
+                            : "border-gray-200 hover:border-blue-300"
+                        }
                                             hover:shadow-md
                         `}>
-                    <Link
-                        to={`/task/${Task._id}`}
-                    >
+
                         View Details {">"}
-                    </Link>
-                </Button>
+                    </Button>
+                </Link>
 
                 {Task.status === "in-progress" && (
                     <Button className="items-center justify-center w-fit border transition">

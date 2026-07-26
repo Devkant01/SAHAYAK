@@ -125,6 +125,23 @@ function TaskCard({
     Task,
 }) {
     console.log("TaskCard Task:", Task);
+    function GetStatusStyles(Status) {
+
+        switch (Status?.toLowerCase()) {
+
+            case "assigned":
+                return "bg-blue-100 text-blue-700";
+
+            case "in-progress":
+                return "bg-purple-100 text-purple-700";
+
+            case "completed":
+                return "bg-green-100 text-green-700";
+
+            default:
+                return "bg-yellow-100 text-yellow-700";
+        }
+    }
     const attachments = Array.isArray(Task.attachments)
         ? Task.attachments
         : Task.attachments
@@ -140,7 +157,7 @@ function TaskCard({
                     <h3 className="text-xl font-semibold text-gray-900">
                         {Task.title}
                     </h3>
-                    <div className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
+                    <div className={`rounded px-3 py-1 text-xs font-medium ${GetStatusStyles(Task.status)}`}>
                         {Task.status}
                     </div>
 
@@ -214,7 +231,7 @@ function TaskCard({
                 </div>
             </div>
             <Link
-                to={`/worker/my-tasks/${Task._id}`}
+                to={`/task/${Task._id}`}
                 className="w-full border-t border-black mt-2 pt-2 inline-flex justify-between items-center gap-2 text-gray-500 transition group-hover:gap-3"
             >
 

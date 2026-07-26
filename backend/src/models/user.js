@@ -56,7 +56,7 @@ const reviewSchema = new mongoose.Schema({
         max: 5
     },
 
-    comment: {
+    review: {
         type: String,
         trim: true,
         maxlength: 500,

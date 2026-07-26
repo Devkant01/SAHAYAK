@@ -15,7 +15,7 @@ export default function Dashboard() {
         Helpers,
         Services
     } = useClientDashboard();
-
+    
     return (
         <main className="min-h-screen bg-gray-50">
 

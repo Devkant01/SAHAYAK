@@ -2,9 +2,8 @@ import axios from "axios";
 import { RefreshToken } from "../utils/RefreshToken";
 
 
-export async function getTaskDetails(taskId, AccessToken, retried = false) {
+export async function getClientTaskDetails(taskId, AccessToken, retried = false) {
     try {
-        console.log("getTaskDetails request:", taskId, AccessToken);
         const { data } = await axios.get(
             `client/my-task/${taskId}`,
             {
@@ -20,12 +19,36 @@ export async function getTaskDetails(taskId, AccessToken, retried = false) {
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {
             const newAccessToken = await RefreshToken(err);
-            return getTaskDetails(taskId, newAccessToken, true);
+            return getClientTaskDetails(taskId, newAccessToken, true);
         } else
             throw err;
     }
 }
 
+export async function getWorkerTaskDetails(taskId, AccessToken, retried = false) {
+    try {
+        const { data } = await axios.get(
+            `worker/my-task/${taskId}`,
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization:
+                        `Bearer ${AccessToken}`
+                }
+            }
+        );
+        console.log("getTaskDetails response:", data);
+        return data;
+    } catch (err) {
+        if (err.response?.status === 401 && !Retried) {
+            const newAccessToken = await RefreshToken(err);
+            return getWorkerTaskDetails(taskId, newAccessToken, true);
+        } else
+            throw err;
+    }
+}
+
+// task details mock data for testing without backend
 // export async function getTaskDetails(taskId, AccessToken, retried = false) {
 //     const pending = {
 //         "message": "Task fetched successfully",

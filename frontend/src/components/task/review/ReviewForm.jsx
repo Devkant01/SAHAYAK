@@ -3,17 +3,22 @@ import {
     Star,
     Send,
 } from "lucide-react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { RefreshToken } from "../../../utils/RefreshToken";
 
 export default function ReviewForm({
     task,
+    refetch,
 }) {
 
     const [rating, setRating] = useState(0);
     const [hover, setHover] = useState(0);
     const [review, setReview] = useState("");
     const [loading, setLoading] = useState(false);
+    const accessToken = useSelector(state => state.user.accessToken);
 
-    async function HandleSubmit(e) {
+    async function HandleSubmit(e, retried = false) {
 
         e.preventDefault();
 
@@ -26,27 +31,32 @@ export default function ReviewForm({
 
             setLoading(true);
 
-            /*
-            await axios.post(
-                `/tasks/${task.task._id}/review`,
+            await axios.put(
+                `/client/mark-task-completed/${task.task._id}`,
                 {
                     rating,
                     review,
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
                 }
             );
-            */
 
-            console.log({
-                taskId: task.task._id,
-                rating,
-                review,
-            });
-
-        }
-        finally {
-
+            console.log({"message": "Review submitted successfully and task marked as completed."});
+            refetch();
+        } catch (error) {
+            if (error.response && error.response.status === 401 && !retried) {
+                const newAccessToken = await RefreshToken(error);
+                if (newAccessToken) {
+                    await HandleSubmit(e, true);
+                }
+            }else
+                console.error("Error submitting review:", error);
+        }finally {
             setLoading(false);
-
         }
 
     }
