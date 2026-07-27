@@ -35,7 +35,7 @@ const taskSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ["plumber", "electrician", "carpenter", "painter", "cleaner", "gardener", "other"],
+        enum: ["plumber", "electrician", "carpenter", "painter", "cleaner", "gardener", "ac-technician", "appliance-repair", "pest-control", "locksmith", "cctv-installer", "computer-repair", "packers-movers", "vehicle-mechanic", "cook", "babysitter", "event-helper",  "other"],
         trim: true
     },
     attachments: [ImageSchema],

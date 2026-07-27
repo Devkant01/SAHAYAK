@@ -106,7 +106,10 @@ export default function Navbar() {
                         </>
                     ) : (
                         <>
-                            <button className="rounded-full p-2 transition hover:bg-slate-100">
+                                <button
+                                    title="0 notifications"
+                                    onClick={() => alert("No notifications yet!")}
+                                    className="rounded-full p-2 transition hover:bg-slate-100">
                                 <Bell className="h-5 w-5" />
                             </button>
 

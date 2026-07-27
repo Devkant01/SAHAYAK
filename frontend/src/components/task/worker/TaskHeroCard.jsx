@@ -4,6 +4,7 @@ import {
     MapPin,
     UserRound,
     Wrench,
+    Clock3
 } from "lucide-react";
 
 export default function TaskHeroCard({
@@ -11,7 +12,7 @@ export default function TaskHeroCard({
     Client,
 }) {
 
-    
+    // const TimelineItems = getTimeline(Task, Client);
     const StatusColor = {
         "in-progress":
             "bg-blue-100 text-blue-700",
@@ -184,3 +185,129 @@ export default function TaskHeroCard({
         </section>
     );
 }
+
+
+//agar aacha nhi lge worker~task/taskhero tb isko bhi implement kr dena taskHeroCard me, abhi thoda bahut galat hai-sahi kr lena implement krne se phle
+/*
+function getTimeline(Task, Client) {
+
+    switch (Task.status) {
+
+        case "pending":
+
+            return [
+
+                {
+                    title: "Posted",
+                    value: formatDate(Task.createdAt),
+                    icon: CalendarDays,
+                },
+
+                {
+                    title: "Expected Start",
+                    value: "ASAP",
+                    icon: Clock3,
+                },
+
+            ];
+
+        case "in-progress":
+
+            return [
+
+                {
+                    title: "Posted",
+                    value: formatDate(Task.createdAt),
+                    icon: CalendarDays,
+                },
+
+                {
+                    title: "Hiring Date",
+                    value: formatDate(Task.hiredAt),
+                    icon: Clock3,
+                },
+
+                {
+                    title: "Created By",
+                    value: Client?.name,
+                    icon: UserRound,
+                },
+
+            ];
+
+        case "awaiting_review":
+
+            return [
+
+                {
+                    title: "Posted",
+                    value: formatDate(Task.createdAt),
+                    icon: CalendarDays,
+                },
+
+                {
+                    title: "Hiring Date",
+                    value: formatDate(Task.acceptedAt),
+                    icon: Clock3,
+                },
+
+                {
+                    title: "Completed By",
+                    value: Task.workerName,
+                    icon: UserRound,
+                },
+
+            ];
+
+        case "completed":
+
+            return [
+
+                {
+                    title: "Posted",
+                    value: formatDate(Task.createdAt),
+                    icon: CalendarDays,
+                },
+
+                {
+                    title: "Started",
+                    value: formatDate(Task.hiredAt),
+                    icon: Clock3,
+                },
+
+                {
+                    title: "Completed",
+                    value: formatDate(Task.completedAt),
+                    icon: CalendarDays,
+                },
+
+            ];
+
+        default:
+
+            return [];
+
+    }
+
+}
+
+function formatStatus(status) {
+
+    return status
+        .split("-")
+        .map(word => word[0].toUpperCase() + word.slice(1))
+        .join(" ");
+
+}
+
+function formatDate(date) {
+
+    if (!date) return "--";
+
+    return new Date(date).toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+}
+    */

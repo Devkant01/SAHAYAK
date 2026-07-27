@@ -50,7 +50,6 @@ function LoginForm({role}) {
                 }
             );
 
-            console.log(Response.data);
             Dispatch(
                 setCredentials(Response.data)
             );

@@ -24,11 +24,8 @@ function StartupCode() {
                         Response.data
                     )
                 );
-                console.log("StartupCode: ",Response.data);
             } catch (err) {
-                console.log(
-                    "No active session"
-                );
+                console.log("No active session", err);
             }finally {
                 Dispatch(setAuthLoading(false));
             }

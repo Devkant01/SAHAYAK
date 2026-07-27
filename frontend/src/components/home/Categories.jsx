@@ -1,50 +1,4 @@
-import {
-    Wrench,
-    Zap,
-    Hammer,
-    PaintRoller,
-    Sparkles,
-    Leaf,
-    MoreHorizontal,
-} from "lucide-react";
-
-const CategoriesList = [
-    {
-        icon: Wrench,
-        name: "Plumber",
-        description: "Leaks, fittings, and pipe repairs.",
-    },
-    {
-        icon: Zap,
-        name: "Electrician",
-        description: "Wiring, fixtures, and safety checks.",
-    },
-    {
-        icon: Hammer,
-        name: "Carpenter",
-        description: "Furniture, doors, and woodwork.",
-    },
-    {
-        icon: PaintRoller,
-        name: "Painter",
-        description: "Interior and exterior painting.",
-    },
-    {
-        icon: Sparkles,
-        name: "Cleaner",
-        description: "Deep cleaning and housekeeping.",
-    },
-    {
-        icon: Leaf,
-        name: "Gardener",
-        description: "Lawn care and landscaping.",
-    },
-    {
-        icon: MoreHorizontal,
-        name: "Other",
-        description: "Tell us what you need help with.",
-    },
-];
+import { WorkerCategories } from "../../constants/workerCategories";
 
 function Categories() {
     return (
@@ -63,25 +17,41 @@ function Categories() {
             </div>
 
             <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {CategoriesList.map(
-                    ({ icon: Icon, name, description }) => (
-                        <div
-                            key={name}
-                            className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg"
-                        >
-                            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white">
-                                <Icon className="h-6 w-6" />
+                {Object.values(WorkerCategories).slice(0, 7).map(
+                    category => {
+                        const Icon = category.icon;
+                        return (
+                            <div
+                                key={category.label}
+                                className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg"
+                            >
+                                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white">
+                                    <category.icon className="h-6 w-6" />
+                                </div>
+
+                                <h3 className="mt-4 text-lg font-semibold">
+                                    {category.label}
+                                </h3>
+
+                                <p className="mt-2 text-sm text-slate-500">
+                                    {category.description}
+                                </p>
                             </div>
-
-                            <h3 className="mt-4 text-lg font-semibold">
-                                {name}
-                            </h3>
-
-                            <p className="mt-2 text-sm text-slate-500">
-                                {description}
-                            </p>
+                        )
+                    }
+                )}
+                {Object.values(WorkerCategories).length > 7 && (
+                    <div className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:shadow-lg">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white">
+                            <span className="text-lg font-semibold">+</span>
                         </div>
-                    )
+                        <h3 className="mt-4 text-lg font-semibold">
+                            {Object.values(WorkerCategories).length - 7} More Categories
+                        </h3>
+                        <p className="mt-2 text-sm text-slate-500">
+                            Explore additional services and professionals.
+                        </p>
+                    </div>
                 )}
             </div>
         </section>

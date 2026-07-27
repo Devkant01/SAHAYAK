@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RefreshToken } from "../../utils/RefreshToken";
 import {
-    Briefcase,
-    Phone,
-    Shield,
     Star, Edit, BadgeCheck, BriefcaseBusiness
 } from "lucide-react";
 import InfoRow from "./InfoRow";
 import { HasValue } from "../../utils/hasValue";
 import ProfileSection from "./ProfileSection";
+import { WorkerCategories } from "../../constants/workerCategories";
 
 
 function WorkerDetailsCard({ user }) {
@@ -248,16 +246,6 @@ function StatCard({
 
 
 
-const Categories = [
-    "Plumber",
-    "Electrician",
-    "Carpenter",
-    "Painter",
-    "Cleaner",
-    "Gardener",
-    "Other"
-];
-
 function ProfessionForm({
     user,
     onCancel,
@@ -356,8 +344,6 @@ function ProfessionForm({
 
             );
 
-            console.log(res.data);
-
             alert(
                 "Professional information updated successfully."
             );
@@ -448,13 +434,13 @@ function ProfessionForm({
                     >
 
                         {
-                            Categories.map(Category => (
+                            Object.values(WorkerCategories).map(Category => (
 
                                 <option
-                                    key={Category}
-                                    value={Category}
+                                    key={Category.label}
+                                    value={Category.label}
                                 >
-                                    {Category}
+                                    {Category.label}
                                 </option>
 
                             ))

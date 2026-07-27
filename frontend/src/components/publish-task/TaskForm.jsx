@@ -17,6 +17,13 @@ export default function TaskForm({
                 }
             />
 
+            <AttachmentUploader
+                Files={TaskData.attachments}
+                SetFiles={value =>
+                    UpdateField("attachments", value)
+                }
+            />
+
             <CategorySelector
                 Value={TaskData.category}
                 OnChange={value =>
@@ -28,13 +35,6 @@ export default function TaskForm({
                 Value={TaskData.description}
                 OnChange={value =>
                     UpdateField("description", value)
-                }
-            />
-
-            <AttachmentUploader
-                Files={TaskData.attachments}
-                SetFiles={value =>
-                    UpdateField("attachments", value)
                 }
             />
 

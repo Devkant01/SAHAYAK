@@ -29,7 +29,6 @@ const Steps = [
 ];
 
 export default function TaskProgressTracker({ status }) {
-    console.log(status);
     const CurrentIndex = Steps.findIndex(
         step => step.key === status
     );

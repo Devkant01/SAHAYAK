@@ -125,7 +125,7 @@ async function getMyTaskController(req, res) {
     } catch (error) {
 
         console.log(
-            "Error in controller/task~getMyTaskController",
+            "Alert! Error in controller/task~getMyTaskController",
             error
         );
 
@@ -185,11 +185,11 @@ async function getMyDashboardStats(req, res) {
         }));
 
         const emergencyServices = [
-            { name: 'Electrician' },
-            { name: 'Plumber' },
-            { name: 'AC Repair' },
-            { name: 'Carpenter' },
-            { name: 'Cleaning Service' }
+            { name: 'electrician' },
+            { name: 'plumber' },
+            { name: 'appliance-repair' },
+            { name: 'carpenter' },
+            { name: 'cleaner' }
         ];
 
         res.status(200).json({
@@ -203,7 +203,7 @@ async function getMyDashboardStats(req, res) {
         });
     }
     catch (err) {
-        console.log("Error in controller/user~getMyDashboardStats", err);
+        console.log("Alert! Error in controller/user~getMyDashboardStats", err);
         res.status(500).json({ error: 'Server error' });
     }
 }

@@ -124,7 +124,6 @@ export default function AssignedTasks({
 function TaskCard({
     Task,
 }) {
-    console.log("TaskCard Task:", Task);
     function GetStatusStyles(Status) {
 
         switch (Status?.toLowerCase()) {

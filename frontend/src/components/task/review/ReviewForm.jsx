@@ -45,7 +45,6 @@ export default function ReviewForm({
                 }
             );
 
-            console.log({"message": "Review submitted successfully and task marked as completed."});
             refetch();
         } catch (error) {
             if (error.response && error.response.status === 401 && !retried) {

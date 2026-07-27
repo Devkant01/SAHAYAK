@@ -22,7 +22,6 @@ export default function WorkerCard({
     async function HandleHire() {
         try {
             setLoading(true);
-            console.log("Attempting to hire worker:", worker._id, "for task:", taskId);
             await axios.post(
                 `/client/assign-task/${taskId}`,
                 {

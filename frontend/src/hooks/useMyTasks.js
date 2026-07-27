@@ -46,7 +46,6 @@ export function useClientMyTasks() {
             setTasks(
                 Response.data.tasks
             );
-            console.log("Fetched tasks:", Response.data);
         } catch (err) {
             console.log(err);
         }
@@ -118,7 +117,6 @@ export function useWorkerMyTasks() {
             setTasks(
                 Response.data.tasks
             );
-            console.log("Fetched tasks:", Response.data);
         } catch (err) {
             console.log(err);
         }

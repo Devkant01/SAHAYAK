@@ -9,7 +9,6 @@ export default function ClientReviewCard({
     Client,
     Review,
 }) {
-    console.log("ClientReviewCard", { Client, Review });
 
     return (
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">

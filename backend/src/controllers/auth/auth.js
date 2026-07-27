@@ -34,7 +34,7 @@ async function registerController(req, res) {
         await sessionManagement(res, 201, user);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
-        console.log("Error in controller/auth~registerController", err);
+        console.log("Alert! Error in controller/auth~registerController", err);
     }
 }
 
@@ -60,7 +60,7 @@ async function loginController(req, res) {
         await sessionManagement(res, 200, user);
     } catch (err) {
         res.status(500).json({ error: 'Server error' });
-        console.log("Error in controller/auth~loginController", err);
+        console.log("Alert! Error in controller/auth~loginController", err);
     }
 }
 
@@ -117,7 +117,7 @@ async function logoutController(req, res) {
 
     } catch (err) {
 
-        console.log("Error in logoutController",err);
+        console.log("Alert! Error in logoutController",err);
 
         return res.status(500).json({
             success: false,

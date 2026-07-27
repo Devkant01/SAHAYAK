@@ -75,13 +75,11 @@ function AddressForm({ onCancel }) {
                     authorization: `Bearer ${AccessToken}`,
                 }
             });
-            console.log(res.data);
             alert("Address added successfully!");
             if (onCancel) onCancel();
             Navigate(0);
         } catch (err) {
             if (err.response?.status === 401 && !retried) {
-                console.log("Access token expired, refreshing...");
                 const res = await RefreshToken(err);
                 handleSubmit(e, true);
             } else {

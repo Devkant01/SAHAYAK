@@ -9,8 +9,6 @@ import {
 
 export default function AssignedWorkerCard({ task }) {
     const Worker = task.worker;
-    console.log("Worker", Worker);
-    console.log("Task", task);
 
     return (
         <section className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">

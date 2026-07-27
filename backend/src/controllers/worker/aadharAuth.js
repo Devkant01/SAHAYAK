@@ -21,7 +21,6 @@ async function VerifyAadharController(req, res) {
             });
         }
         const otpResponse = await generateOtp(aadharNumber);
-        console.log("OTP Response:", otpResponse);
         return res.status(200).json({
             message: "OTP sent successfully",
             referenceId: otpResponse.data?.reference_id || otpResponse.data?.referenceid
@@ -45,7 +44,6 @@ async function VerifyAadharOtpController(req, res) {
     }
 
     try {
-        console.log("Verifying OTP with referenceId:", referenceId, "and otp:", otp);
         const verifyResponse = await verifyOtp(referenceId, otp);
 
         if (verifyResponse.status !== "VALID") {

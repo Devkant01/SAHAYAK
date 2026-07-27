@@ -22,7 +22,6 @@ async function generateAccessToken() {
         sandBoxAccessToken =
             res.data?.data?.access_token ||
             res.data?.access_token;
-        console.log("7")
         ExpiryTime = Date.now() + 23 * 60 * 60 * 1000;
         return sandBoxAccessToken;
     } catch (err) {

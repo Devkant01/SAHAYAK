@@ -1,37 +1,13 @@
+import { MapPin, CalendarDays, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import {
-    MapPin,
-    Users,
-    CalendarDays,
-    ArrowRight,
-    Wrench,
-    Zap,
-    Hammer,
-    Paintbrush,
-    Sparkles,
-    Trees,
-    CircleHelp
-} from "lucide-react";
-
-
-
+import { WorkerCategories } from "../../../constants/workerCategories";
 import TaskStatusBadge from "./TaskStatusBadge";
 
 export default function TaskCard({
     Task,
     WorkerCount
 }) {
-    const iconMap = {
-        plumber: Wrench,
-        electrician: Zap,
-        carpenter: Hammer,
-        painter: Paintbrush,
-        cleaner: Sparkles,
-        gardener: Trees,
-        other: CircleHelp
-    };
-
-    const CategoryIcon = iconMap[Task.category?.toLowerCase()] || iconMap.other;
+    const CategoryIcon = WorkerCategories[Task.category?.toLowerCase()].icon;
 
     return (
         <Link
@@ -84,7 +60,7 @@ export default function TaskCard({
                                 <span className="ml-1 border-2 text-xs text-gray-400">
                                     ({WorkerCount} available)
                                 </span>
-                            )} */} 
+                            )} */}
                         </span>
                     </div>
 

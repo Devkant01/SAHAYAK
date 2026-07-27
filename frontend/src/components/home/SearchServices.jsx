@@ -3,9 +3,19 @@ import { Search, MapPin } from "lucide-react";
 const PopularTags = [
     "Plumbing",
     "Electrical",
-    "Cleaning",
-    "Painting",
     "Carpentry",
+    "Painting",
+    "Cleaning",
+    "Gardening",
+    "Cooking",
+    "AC Repair",
+    "Appliance Repair",
+    "Pest Control",
+    "Locksmith",
+    "CCTV Installation",
+    "Computer Repair",
+    "Packers & Movers",
+    "Vehicle Mechanic",
 ];
 
 function SearchServices() {
@@ -39,19 +49,24 @@ function SearchServices() {
                     </button>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="text-sm text-slate-500">
+                <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <span className="text-sm pb-1 text-slate-500">
                         Popular:
                     </span>
 
-                    {PopularTags.map((tag) => (
+                    {PopularTags.slice(0,8).map((tag) => (
                         <button
                             key={tag}
-                            className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700"
+                            className="rounded border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700"
                         >
                             {tag}
                         </button>
                     ))}
+                    {PopularTags.length > 8 && (
+                        <button className="rounded border border-slate-200 bg-slate-50 px-3 py-1 text-sm text-slate-600 hover:bg-teal-50 hover:text-teal-700">
+                            +{PopularTags.length - 8} more
+                        </button>
+                    )}
                 </div>
             </div>
         </section>

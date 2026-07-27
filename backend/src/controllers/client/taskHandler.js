@@ -1,5 +1,6 @@
 const { Task } = require('../../models/task');
 const { Client, Worker } = require('../../models/user');
+const { RedisClient } = require('../../config/redis');
 const { deleteFromCloudinary, uploadOnCloudinary } = require('../../utils/uploadImage.js');
 
 async function getMyTasksController(req, res) {
@@ -10,8 +11,21 @@ async function getMyTasksController(req, res) {
             });
         }
 
-        const tasks = await Task.find({ createdBy: req.user.objectId }).select("-createdBy -__v -updatedAt");
-        if (tasks.length === 0) {
+        const Key = `client:${req.user.objectId}:tasks`;
+        const CachedTasks = await RedisClient.get(Key);
+
+        if (CachedTasks) {
+            return res.status(200).json({
+                "redis-message": "Tasks fetched successfully (from cache)",
+                ...JSON.parse(CachedTasks)
+            });
+        }
+
+        const Tasks = await Task.find({
+            createdBy: req.user.objectId
+        }).select("-createdBy -__v -updatedAt");
+
+        if (Tasks.length === 0) {
             return res.status(200).json({
                 message: "No tasks found for this client"
             });
@@ -32,31 +46,45 @@ async function getMyTasksController(req, res) {
             CountMap[normalize(item._id)] = item.count;
         });
 
-        const otherWorkersCount = CountMap.other || 0;
+        const OtherWorkersCount = CountMap.other || 0;
 
-        const TasksWithCounts = tasks.map((task) => {
-            const taskCategory = normalize(task.category);
+        const TasksWithCounts = Tasks.map((task) => {
+            const TaskCategory = normalize(task.category);
+
             return {
                 ...task.toObject(),
-                availableWorkers: (CountMap[taskCategory] || 0) + otherWorkersCount
+                availableWorkers:
+                    (CountMap[TaskCategory] || 0) + OtherWorkersCount
             };
         });
 
-        return res.status(200).json({
+        const Response = {
             message: "Tasks fetched successfully",
             stats: {
-                total: tasks.length,
-                pending: tasks.filter(task => task.status === "pending").length,
-                active: tasks.filter(task => task.status === "in-progress").length,
-                awaiting_review: tasks.filter(task => task.status === "awaiting_review").length,
-                completed: tasks.filter(task => task.status === "completed").length,    
+                total: Tasks.length,
+                pending: Tasks.filter(task => task.status === "pending").length,
+                active: Tasks.filter(task => task.status === "in-progress").length,
+                awaiting_review: Tasks.filter(task => task.status === "awaiting_review").length,
+                completed: Tasks.filter(task => task.status === "completed").length,
             },
             tasks: TasksWithCounts
-        });
+        };
+
+        await RedisClient.setEx(
+            Key,
+            300,
+            JSON.stringify(Response)
+        );
+
+        return res.status(200).json(Response);
+
     } catch (error) {
-        console.log("Error in controller/task~getMyTasksController", error);
-        console.log("Alert! controller/task~getMyTasksController just knocked");
-        res.status(500).json({ message: "Internal server error(Fetching tasks from database)" });
+        console.log("Alert! Error in controller/task~getMyTasksController just knocked");
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Internal server error (Fetching tasks from database)"
+        });
     }
 }
 
@@ -121,7 +149,7 @@ async function editTaskController(req, res) {
 
         return res.status(200).json({ message: "Task updated successfully", task: sanitized });
     } catch (error) {
-        console.log("Error in controller/task~editTaskController", error);
+        console.log("Alert! Error in controller/task~editTaskController", error);
         return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
@@ -148,7 +176,7 @@ async function deleteTaskController(req, res) {
 
         return res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
-        console.log("Error in controller/task~deleteTaskController", error);
+        console.log("Alert! Error in controller/task~deleteTaskController", error);
         return res.status(500).json({ message: "Internal server error", error: error.message });
     }
 }
@@ -207,7 +235,7 @@ async function publishTaskController(req, res) {
         });
 
     } catch (error) {
-        console.log("Error in controller/task~publishTaskController", error);
+        console.log("Alert! Error in controller/task~publishTaskController", error);
         return res.status(500).json({
             status: "error",
             message: "Internal server error",

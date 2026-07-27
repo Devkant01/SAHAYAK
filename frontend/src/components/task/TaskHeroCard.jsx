@@ -3,31 +3,13 @@ import {
     Clock3,
     MapPin,
     UserRound,
-    CircleDollarSign,
-    Users,
-    ArrowRight,
-    Wrench,
-    Zap,
-    Hammer,
-    Paintbrush,
-    Sparkles,
-    Trees,
-    CircleHelp
 } from "lucide-react";
+import { WorkerCategories } from "../../constants/workerCategories";
 
 export default function TaskHeroCard({ task }) {
-    const iconMap = {
-        plumber: Wrench,
-        electrician: Zap,
-        carpenter: Hammer,
-        painter: Paintbrush,
-        cleaner: Sparkles,
-        gardener: Trees,
-        other: CircleHelp
-    };
     const Task = task.task;
     const Worker = task.worker;
-    const CategoryIcon = iconMap[Task.category?.toLowerCase()] || iconMap.other;
+    const CategoryIcon = WorkerCategories[Task.category?.toLowerCase()].icon;
 
     const TimelineItems = getTimeline(Task, Worker);
 
@@ -143,9 +125,9 @@ function InfoCard({
 
             <div className="flex gap-2 mb-3 text-teal-600">
                 {icon}
-            <span className="text-sm text-slate-500">
-                {title}
-            </span>
+                <span className="text-sm text-slate-500">
+                    {title}
+                </span>
             </div>
 
 

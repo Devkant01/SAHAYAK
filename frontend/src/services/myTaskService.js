@@ -13,7 +13,6 @@ export async function GetClientMyTasks(AccessToken, Retried = false) {
                 }
             }
         );
-        console.log("GetMyTasks response:", res);
         return res;
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {
@@ -35,7 +34,6 @@ export async function GetWorkerMyTasks(AccessToken, Retried = false) {
                 }
             }
         );
-        console.log("GetMyTasks response:", res);
         return res;
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {

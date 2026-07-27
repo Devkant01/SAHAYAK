@@ -1,44 +1,6 @@
 import CategoryCard from "./CategoryCard";
-import {
-    Wrench,
-    Zap,
-    Hammer,
-    Paintbrush,
-    BrushCleaning,
-    Trees,
-    Briefcase
-} from "lucide-react";
+import { WorkerCategories } from "../../constants/workerCategories";
 
-export const TaskCategories = [
-    {
-        label: "Plumber",
-        icon: Wrench
-    },
-    {
-        label: "Electrician",
-        icon: Zap
-    },
-    {
-        label: "Carpenter",
-        icon: Hammer
-    },
-    {
-        label: "Painter",
-        icon: Paintbrush
-    },
-    {
-        label: "Cleaner",
-        icon: BrushCleaning
-    },
-    {
-        label: "Gardener",
-        icon: Trees
-    },
-    {
-        label: "Other",
-        icon: Briefcase
-    }
-];
 
 export default function CategorySelector({
     Value,
@@ -51,7 +13,7 @@ export default function CategorySelector({
             </label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {
-                    TaskCategories.map(item => (
+                    Object.values(WorkerCategories).map(item => (
                         <CategoryCard
                             key={item.label}
                             Icon={item.icon}

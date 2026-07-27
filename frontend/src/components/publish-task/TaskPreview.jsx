@@ -9,7 +9,6 @@ export default function TaskPreview({
     HandleSubmit
 }) {
     const user = useSelector((state) => state.user);
-    console.log("TaskData in TaskPreview:", TaskData); // Debugging line to check TaskData
     return (
         <div className="sticky h-fit top-28">
             <div className="bg-white rounded-3xl shadow-lg overflow-hidden">

@@ -1,20 +1,4 @@
-import {
-    Zap,
-    Wrench,
-    Snowflake,
-    BrushCleaning,
-    KeyRound,
-    Hammer
-} from "lucide-react";
-
-const Icons = {
-    Electrician: Zap,
-    Plumber: Wrench,
-    "AC Repair": Snowflake,
-    Cleaner: BrushCleaning,
-    Locksmith: KeyRound,
-    Handyman: Hammer
-};
+import { WorkerCategories } from "../../../constants/workerCategories";
 
 export default function EmergencyServices({
     Services
@@ -38,9 +22,7 @@ export default function EmergencyServices({
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
 
                 {Services?.map((Service, Index) => {
-
-                    const Icon =
-                        Icons[Service.name] || Hammer;
+                    const Icon = WorkerCategories[Service.name].icon;
 
                     return (
                         <button

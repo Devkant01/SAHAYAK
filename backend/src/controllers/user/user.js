@@ -209,8 +209,6 @@ async function AddAddressController(req, res) {
             }
         );
 
-        console.log(FullAddress);
-        console.log(Response.data);
 
         if (!Response.data.length) {
             return res.status(404).json({
@@ -292,7 +290,7 @@ async function deleteProfileController(req, res) {
         res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
         res.status(200).json({ message: 'User profile deleted successfully' });
     } catch (err) {
-        console.log("Error in controller/user~deleteProfileController", err);
+        console.log("Alert! Error in controller/user~deleteProfileController", err);
         res.status(500).json({ error: 'Server error' });
     }
 }
@@ -303,7 +301,7 @@ async function logoutAllSessions(req, res) {
         res.clearCookie('refreshToken', { httpOnly: true, secure: true, sameSite: 'strict' });
         res.status(200).json({ message: 'Logged out from all sessions successfully' });
     } catch (err) {
-        console.log("Error in controller/user~logoutAllSessions", err);
+        console.log("Alert! Error in controller/user~logoutAllSessions", err);
         res.status(500).json({ error: 'Server error' });
     }
 }

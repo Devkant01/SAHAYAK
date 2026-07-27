@@ -14,7 +14,6 @@ export async function getClientTaskDetails(taskId, AccessToken, retried = false)
                 }
             }
         );
-        console.log("getTaskDetails response:", data);
         return data;
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {
@@ -37,7 +36,6 @@ export async function getWorkerTaskDetails(taskId, AccessToken, retried = false)
                 }
             }
         );
-        console.log("getTaskDetails response:", data);
         return data;
     } catch (err) {
         if (err.response?.status === 401 && !Retried) {

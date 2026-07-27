@@ -21,8 +21,8 @@ function Profile() {
   const Navigate = useNavigate();
   const Dispatch = useDispatch();
 
-  const isAuthenticated = useSelector(
-    state => state.user.isAuthenticated
+  const { isAuthenticated, userRole } = useSelector(
+    state => state.user
   );
   let AccessToken = useSelector(
     state => state.user.accessToken
@@ -42,11 +42,9 @@ function Profile() {
             Authorization: `Bearer ${AccessToken}`
           }
         });
-        console.log(response.data);
         setUser(response.data.user);
       } catch (err) {
         if (err.response?.status === 401) {
-          console.log("Access token expired, refreshing...");
           const newAccessToken = await RefreshToken(err);
           AccessToken = newAccessToken;
         } else
@@ -101,7 +99,6 @@ function Profile() {
 
   const [isEditing, setIsEditing] = useState(false);
   function HandleEditProfile() {
-    console.log("Edit profile clicked", isEditing);
     setIsEditing(!isEditing);
   }
 
@@ -141,11 +138,13 @@ function Profile() {
                 isEditing={isEditing}
               />
 
+              {userRole === "worker" && (
               <WorkerDetailsCard
                 user={
                   User
                 }
               />
+              )}
 
               <AddressesSection
                 user={

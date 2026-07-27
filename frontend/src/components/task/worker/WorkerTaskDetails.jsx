@@ -25,7 +25,6 @@ export default function WorkerTaskDetails() {
             error,
             refetch,
         } = useWorkerTaskDetails(taskId);
-    console.log("workerTaskDetails", task);
     if (!taskId) {
         return <Navigate to="/worker/my-tasks" replace />;
     }

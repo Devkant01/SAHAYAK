@@ -59,15 +59,12 @@ function AppRoutes() {
 
 function ProtectedRoute() {
     const user = useSelector((state) => state.user);
-    console.log("protected route:", user);
     const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
-    console.log("ProtectedRoute: isAuthenticated =", isAuthenticated);
     return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 }
 
 function ClientRoute() {
     const userRole = useSelector((state) => state.user.userRole); //add toast: you are not authorized to access this page
-    console.log("ClientRoute: userRole =", userRole);
     return userRole === "client" ? <Outlet /> : <Navigate to="/login?role=client" replace />;
 }
 

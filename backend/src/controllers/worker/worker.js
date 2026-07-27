@@ -1,5 +1,6 @@
 const { Task } = require("../../models/task");
 const { Client, Worker, Review } = require("../../models/user");
+const { RedisClient } = require("../../config/redis");
 
 async function profileController(req, res) {
     const WorkerId = req.user.objectId;
@@ -88,6 +89,15 @@ async function getMyTasksController(req, res) {
             });
         }
 
+        const key = `worker:${req.user.objectId}:tasks`;
+        const cachedTasks = await RedisClient.get(key);
+        if (cachedTasks) {
+            return res.status(200).json({
+                "redis-message": "Tasks fetched successfully (from cache)",
+                ...JSON.parse(cachedTasks)
+        })
+        }
+
         const WorkerId = req.user.objectId;
 
         const Tasks = await Task.find({
@@ -127,7 +137,7 @@ async function getMyTasksController(req, res) {
             };
         });
 
-        res.json({
+        const response = ({
             message: "Tasks fetched successfully",
             stats: {
                 total: result.length,
@@ -137,9 +147,11 @@ async function getMyTasksController(req, res) {
             },
             tasks: result,
         });
+
+        await RedisClient.setEx(key, 300, JSON.stringify(response));
+        return res.status(200).json(response);
     } catch (error) {
-        console.log("Error in controller/worker/worker~getMyTasksController", error);
-        console.log("Alert! controller/worker/worker~getMyTasksController just knocked");
+        console.log("Alert! Error in controller/worker/worker~getMyTasksController just knocked");
         res.status(500).json({ message: "Internal server error(Fetching tasks from database)" });
     }
 }
@@ -202,7 +214,7 @@ async function getMyDashboardStats(req, res) {
         });
     }
     catch (err) {
-        console.log("Error in controller/user~getMyDashboardStats", err);
+        console.log("Alert! Error in controller/user~getMyDashboardStats", err);
         res.status(500).json({ error: 'Server error' });
     }
 }
@@ -299,7 +311,7 @@ async function getMyTaskDetails(req, res) {
 
     catch (err) {
 
-        console.log("Error in controller/user~getTaskDetails", err);
+        console.log("Alert! Error in controller/user~getTaskDetails", err);
         return res.status(500).json({
             message: "Internal server error."
         });

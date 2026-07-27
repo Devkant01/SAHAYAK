@@ -1,4 +1,4 @@
-import { Search, Plus, Zap, Wrench, Snowflake, BrushCleaning, UserRound } from "lucide-react";
+import { Search, Plus, UserRound } from "lucide-react";
 import { Link } from "react-router-dom";
 import Button from "../../Button";
 import { useSelector } from "react-redux";
@@ -16,24 +16,6 @@ export default function HeroSection() {
             : currentHour < 18
                 ? "Good afternoon"
                 : "Good evening";
-    const Services = [
-        {
-            Icon: Zap,
-            Name: "Electrician"
-        },
-        {
-            Icon: Wrench,
-            Name: "Plumber"
-        },
-        {
-            Icon: Snowflake,
-            Name: "AC Repair"
-        },
-        {
-            Icon: BrushCleaning,
-            Name: "Cleaner"
-        }
-    ];
 
     return (
         <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-teal-600 via-teal-500 to-teal-600 p-6 md:p-10 text-white">
@@ -80,21 +62,6 @@ export default function HeroSection() {
                         </Button>
 
                     </div>
-
-                    {/* <div className="mt-4 flex flex-wrap gap-3">
-
-                    {Services.map((Service) => (
-                        <Button
-                            key={Service.Name}
-                            variant="transparent"
-                            className="flex items-center gap-2 rounded-full backdrop-blur-md px-4 py-2 font-medium hover:bg-white/20 transition"
-                        >
-                            <Service.Icon size={18} />
-                            {Service.Name}
-                        </Button>
-                    ))}
-
-                </div> */}
 
                 </div>
                 <div className="rounded-2xl border border-white/20 bg-white/10 px-6 py-5 h-fit w-fit backdrop-blur">

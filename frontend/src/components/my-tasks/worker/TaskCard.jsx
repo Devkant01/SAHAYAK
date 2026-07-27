@@ -4,35 +4,19 @@ import {
     Users,
     CalendarDays,
     ArrowRight,
-    Wrench,
-    Zap,
-    Hammer,
-    Paintbrush,
-    Sparkles,
-    Trees,
-    CircleHelp,
-    Phone
+    Phone,
 } from "lucide-react";
 import Button from "../../Button";
 
 
-
+import { WorkerCategories } from "../../../constants/workerCategories";
 import TaskStatusBadge from "./TaskStatusBadge";
 
 export default function TaskCard({
     Task
 }) {
-    const iconMap = {
-        plumber: Wrench,
-        electrician: Zap,
-        carpenter: Hammer,
-        painter: Paintbrush,
-        cleaner: Sparkles,
-        gardener: Trees,
-        other: CircleHelp
-    };
 
-    const CategoryIcon = iconMap[Task.category?.toLowerCase()] || iconMap.other;
+    const CategoryIcon = WorkerCategories[Task.category?.toLowerCase()].icon;
 
     return (
         <div className={`
@@ -59,15 +43,6 @@ export default function TaskCard({
                     </p>
 
                 </div>
-                {/* future task */}
-                {/* <div className="flex justify-end items-start">
-                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                    <Users size={16} />
-                        <span>
-                            {Task.worker ? Task.worker.name : Task.availableWorkers}
-                        </span>
-                    </div>
-                </div> */}
             </div>
 
             <div className="mt-5 grid grid-cols-2 gap-4">

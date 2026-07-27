@@ -29,8 +29,6 @@ export function useClientDashboard() {
     async function FetchDashboard() {
         try {
             const res = await GetClientDashboardData(AccessToken);
-            console.log("Dashboard data fetched successfully", res.data);
-            console.log("Dashboard data fetched successfully", res.data.data);
             const {
                 Stats,
                 Tasks,
