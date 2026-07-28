@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const { connectDB } = require("./config/db");
+const { connectRedis } = require("./config/redis");
 const clientRoutes = require('./routes/client');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
@@ -28,5 +30,13 @@ app.use(`${API_BASE}/worker`, workerRoutes);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
+
+connectDB()
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.error("MongoDB Error:", err));
+
+connectRedis()
+    .then(() => console.log("Redis Connected"))
+    .catch(err => console.error("Redis Error:", err));
 
 module.exports = app;
