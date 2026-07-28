@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser"); //now we can access cookies via r
 
 const app = express();
 app.use(cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
+    origin: "https://sahayak-kappa-umber.vercel.app", // Replace with your frontend URL
     credentials: true, // Allow cookies to be sent
 })
 )
