@@ -11,7 +11,7 @@ import ProfileSection from "./ProfileSection";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { RefreshToken } from "../../utils/refreshToken";
+import { RefreshToken } from "../../utils/RefreshToken";
 
 function PersonalInfoCard({ user, isEditing }) {
     const Fields = [
