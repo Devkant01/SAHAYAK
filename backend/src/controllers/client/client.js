@@ -124,10 +124,7 @@ async function getMyTaskController(req, res) {
 
     } catch (error) {
 
-        console.log(
-            "Alert! Error in controller/task~getMyTaskController",
-            error
-        );
+        console.log("Alert! Error in controller/task~getMyTaskController", error);
 
         return res.status(500).json({
             message: "Internal server error"
@@ -247,6 +244,7 @@ async function markTaskCompletedController(req, res) {
             review
         });
         await newReview.save();
+        await RedisClient.del(`client:${req.user.objectId}:tasks`);
         res.status(200).json({ message: "Task marked as completed successfully" });
 
     } catch (error) {
@@ -278,6 +276,7 @@ async function assignTaskController(req, res) {
         task.status = "in-progress";
         task.acceptedAt = new Date();
         await task.save();
+        await RedisClient.del(`client:${req.user.objectId}:tasks`);
         res.status(200).json({ message: "Task assigned successfully" });
     } catch (error) {
         console.log("Alert! controller/task~assignTaskController just knocked");

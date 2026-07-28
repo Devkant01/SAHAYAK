@@ -53,7 +53,7 @@ export default function ReviewForm({
                     await HandleSubmit(e, true);
                 }
             }else
-                console.error("Error submitting review:", error);
+                console.error("Alert! Error submitting review:", error);
         }finally {
             setLoading(false);
         }

@@ -1,6 +1,7 @@
 const axios = require('axios');
 const { Client, Worker, Session } = require('../../models/user');
 const { deleteFromCloudinary, uploadOnCloudinary } = require('../../utils/uploadImage');
+const { RedisClient } = require('../../config/redis');
 
 async function getProfileController(req, res) {
     try {
@@ -15,7 +16,7 @@ async function getProfileController(req, res) {
         });
     }
     catch (err) {
-        console.log("Error in controller/user~getProfileController", err);
+        console.log("Alert! Error in controller/user~getProfileController", err);
         res.status(500).json({ error: 'Server error' });
     }
 }
@@ -32,7 +33,7 @@ async function updateProfileController(req, res) {
             req.user.objectId
         );
 
-        
+
 
         if (!UserData) {
             return res.status(404).json({
@@ -53,7 +54,7 @@ async function updateProfileController(req, res) {
                     Number(req.body.experience);
             }
 
-            if(req.body.bio?.trim()) {
+            if (req.body.bio?.trim()) {
                 Updates.bio = req.body.bio.trim();
             }
 
@@ -150,10 +151,7 @@ async function updateProfileController(req, res) {
 
     } catch (err) {
 
-        console.log(
-            "Error in updateProfileController",
-            err
-        );
+        console.log("Alert! Error in updateProfileController", err);
 
         return res.status(500).json({
             success: false,
@@ -251,7 +249,7 @@ async function AddAddressController(req, res) {
         ];
 
         await UserData.save();
-        if(isDefault) {
+        if (isDefault) {
             UserData.defaultAddress = UserData.addresses[UserData.addresses.length - 1]._id;
             await UserData.save();
         }
@@ -264,7 +262,7 @@ async function AddAddressController(req, res) {
 
     } catch (err) {
 
-        console.error(err);
+        console.error("Alert! Error in AddAddressController", err);
 
         return res.status(500).json({
             success: false,
@@ -306,10 +304,15 @@ async function logoutAllSessions(req, res) {
     }
 }
 
+// no need
+// async function deleteCache(req, res) {
+//     await RedisClient.del(`${req.user.role}:${req.user.objectId}:tasks`);
+// } 
+
 module.exports = {
     getProfileController,
     AddAddressController,
     updateProfileController,
     deleteProfileController,
-    logoutAllSessions
+    logoutAllSessions,
 };

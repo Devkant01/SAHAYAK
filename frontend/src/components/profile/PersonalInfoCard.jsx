@@ -277,9 +277,7 @@ function UpdateProfile({ user }) {
                 );
             }
 
-            console.log(
-                err.response?.data || err
-            );
+            console.log(err.response?.data || err);
 
             alert(
                 err.response?.data
@@ -323,8 +321,8 @@ function UpdateProfile({ user }) {
                         className={`${Boolean(
                             user.mail?.id
                         )
-                                ? "inline"
-                                : "hidden"
+                            ? "inline"
+                            : "hidden"
                             } text - xs text - slate - 500`}
                     >
                         Email is unique and
@@ -347,8 +345,8 @@ function UpdateProfile({ user }) {
                         className={`${Boolean(
                             user.mail?.id
                         )
-                                ? "cursor-not-allowed"
-                                : "cursor-text"
+                            ? "cursor-not-allowed"
+                            : "cursor-text"
                             } focus:border-teal-300 h-12 rounded-xl border-2 outline-none border-slate-300 bg-slate-100 px-4 text-sm text-slate-500`}
                     />
                 </label>
@@ -391,8 +389,8 @@ function UpdateProfile({ user }) {
                             user.mobile
                                 ?.number
                         )
-                                ? "cursor-not-allowed"
-                                : "cursor-text"
+                            ? "cursor-not-allowed"
+                            : "cursor-text"
                             } focus:border-teal-300 h-12 rounded-xl border-2 outline-none border-slate-300 bg-slate-100 px-4 text-sm text-slate-500`}
                     />
                 </label>

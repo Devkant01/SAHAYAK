@@ -51,11 +51,11 @@ async function profileController(req, res) {
 async function markTaskCompletedController(req, res) {
     const WorkerId = req.user.objectId;
     const { taskId } = req.params;
-
+    
     const TaskDoc = await Task.findOne({
         _id: taskId,
         assignedTo: WorkerId
-    });
+    }); 
 
     if (!TaskDoc) {
         return res.status(404).json({
@@ -66,7 +66,7 @@ async function markTaskCompletedController(req, res) {
     TaskDoc.status = "awaiting_review";
     TaskDoc.submittedAt = new Date();
     await TaskDoc.save();
-
+    RedisClient.del(`worker:${WorkerId}:tasks`);
     res.json({
         message: "Task completed and submitted for review"
     });

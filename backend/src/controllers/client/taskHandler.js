@@ -79,8 +79,7 @@ async function getMyTasksController(req, res) {
         return res.status(200).json(Response);
 
     } catch (error) {
-        console.log("Alert! Error in controller/task~getMyTasksController just knocked");
-        console.error(error);
+        console.log("Alert! Error in controller/task~getMyTasksController just knocked", error);
 
         return res.status(500).json({
             message: "Internal server error (Fetching tasks from database)"
@@ -147,6 +146,7 @@ async function editTaskController(req, res) {
         delete sanitized.createdAt;
         delete sanitized.updatedAt;
 
+        await RedisClient.del(`client:${req.user.objectId}:tasks`);
         return res.status(200).json({ message: "Task updated successfully", task: sanitized });
     } catch (error) {
         console.log("Alert! Error in controller/task~editTaskController", error);
@@ -173,7 +173,7 @@ async function deleteTaskController(req, res) {
         }
 
         await Task.deleteOne({ _id: id });
-
+        await RedisClient.del(`client:${req.user.objectId}:tasks`);
         return res.status(200).json({ message: "Task deleted successfully" });
     } catch (error) {
         console.log("Alert! Error in controller/task~deleteTaskController", error);
@@ -227,7 +227,7 @@ async function publishTaskController(req, res) {
         });
 
         await task.save();
-
+        await RedisClient.del(`client:${req.user.objectId}:tasks`);
         return res.status(201).json({
             status: "success",
             message: "task published successfully",

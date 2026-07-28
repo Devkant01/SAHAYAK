@@ -6,7 +6,7 @@ const {
     markTaskCompletedController,
     getMyTasksController,
     getMyTaskDetails,
-    getMyDashboardStats
+    getMyDashboardStats,
 } = require("../controllers/worker/worker");
 
 app.post("/verify-aadhar", authenticateToken, VerifyAadharController);
