@@ -45,7 +45,7 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
-            <nav className="mx-auto grid max-w-7xl grid-cols-4 items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
+            <nav className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4 items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
                 <Link
                     to="/"
@@ -137,12 +137,12 @@ export default function Navbar() {
                     onClick={() =>
                         setOpen((prev) => !prev)
                     }
-                    className="rounded-lg p-2 md:hidden"
+                    className="rounded-lg p-2 flex justify-end md:hidden"
                 >
                     {open ? (
                         <X className="h-6 w-6" />
                     ) : (
-                        <Menu className="h-6 w-6" />
+                            <Menu className="h-6 w-6 " />
                     )}
                 </button>
             </nav>
