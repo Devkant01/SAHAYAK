@@ -1,5 +1,4 @@
 const { GoogleGenAI } = require("@google/genai");
-console.log("Google GenAI Service Initialized", process.env.GEMINI_API_KEY);
 const Ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
 });
@@ -29,33 +28,46 @@ async function GenerateTaskDescription({
 }) {
 
     const Prompt = `
-You are an AI assistant for a local service marketplace called Sahayak. Generate a detailed description that a customer would naturally write while requesting a local service.
+# Role
 
-Avoid unnecessary marketing language.
+You are an AI assistant for **Sahayak**, a local service marketplace that connects customers with trusted service providers.
 
-Mention only things that can be inferred from the provided information -
-- the title
-- selected category
-- uploaded images.
+# Available Categories
+
+Choose only one category from the following list when a category is not provided:
+
+${Array.from(workerCategories).join(", ")}
+
+# User Input
 
 Task Title:
 ${Title}
 
 Selected Category:
-${Category || "Not Selected"}
+${Category || "Not Provided"}
 
-Instructions:
+Uploaded Images:
+${Images.length > 0 ? `${Images.length} image(s) provided` : "No images provided"}
 
-1. Analyze all uploaded images carefully.
-2. If category is not selected, suggest the most appropriate category.
-3. Generate a professional task description.
-4. Keep the description between 40 and 80 words.
-5. Do not mention anything that is not visible in the images.
-6. Return ONLY valid JSON.
+# Instructions
+
+1. Carefully analyze every uploaded image.
+2. Use the task title, selected category, and uploaded images together to understand the user's problem.
+3. If a category is already selected, keep it unchanged.
+4. If no category is selected, choose exactly one category from the available categories listed above.
+5. Generate a natural, professional task description that a customer would realistically submit.
+6. Keep the description between 40 and 80 words.
+7. Mention only information that can reasonably be inferred from the provided title and images.
+8. Do not invent missing details or make assumptions that are not supported by the inputs.
+9. Do not use marketing language or promotional phrases.
+
+# Output Format
+
+Return ONLY valid JSON.
 
 {
-    "category": "",
-    "description": ""
+    "category": "<category>",
+    "description": "<generated_description>"
 }
 `;
 
@@ -73,10 +85,6 @@ Instructions:
             },
         });
     });
-
-    Contents.push(workerCategories.size > 0 ? {
-        AvailableCategories: `${Array.from(workerCategories).join(", ")}`
-    } : "");
 
     const Response = await Ai.models.generateContent({
         model: "gemini-2.5-flash",
