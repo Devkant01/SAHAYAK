@@ -10,14 +10,12 @@ export default function PublishTask() {
     TaskData,
     UpdateField,
     Loading,
-    HandleSubmit
+    HandleSubmit,
+    HandleAISubmit
   } = useTaskForm();
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-10">
-
-
-
       <div className="grid lg:grid-cols-[1.7fr_1fr] gap-8">
         <div className="">
           <div className="mb-10">
@@ -37,6 +35,7 @@ export default function PublishTask() {
           <TaskForm
             TaskData={TaskData}
             UpdateField={UpdateField}
+            HandleAISubmit={HandleAISubmit}
           />
         </div>
 

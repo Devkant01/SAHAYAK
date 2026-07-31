@@ -46,3 +46,50 @@ export async function PublishTask(TaskData, AccessToken, Retried = false) {
     }
 
 }
+
+
+export async function GetDescription(TaskData, AccessToken, Retried = false) {
+    const Data = new FormData();
+
+    Data.append(
+        "title",
+        TaskData.title
+    );
+
+    if (TaskData.category.trim() !== "") {
+        Data.append(
+            "category",
+            TaskData.category
+        );
+    }
+
+    if (TaskData.attachments.length > 0) {
+        TaskData.attachments.forEach(file => {
+            Data.append(
+                "attachments",
+                file
+            );
+        });
+    }
+
+    try {
+        const Response = await axios.post(
+            "/ai/get-description",
+            Data,
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: `Bearer ${AccessToken}`
+                }
+            }
+        );
+        return Response.data;
+    } catch (err) {
+        if (err.response?.status === 401 && !Retried) {
+            const newAccessToken = await RefreshToken(err);
+            return GetDescription(TaskData, newAccessToken, true);
+        } else
+            throw err;
+    }
+
+}

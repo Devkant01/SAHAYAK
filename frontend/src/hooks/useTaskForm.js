@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { PublishTask } from "../services/taskService";
+import { PublishTask, GetDescription } from "../services/taskService";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -35,8 +35,6 @@ export default function useTaskForm() {
         async () => {
 
             try {
-                setLoading(true);
-
                 await PublishTask(
                     TaskData,
                     AccessToken
@@ -51,17 +49,40 @@ export default function useTaskForm() {
                 Navigate("/dashboard");
             } catch (err) {
                 console.log("Error in hooks/useTaskForm~HandleSubmit", err);
+            }
+        };
+
+    const HandleAISubmit =
+        async () => {
+            console.log("HandleAISubmit called");
+            try {
+                setLoading(true);
+
+                const res = await GetDescription(
+                    TaskData,
+                    AccessToken
+                );
+
+                setTaskData({
+                    ...TaskData,
+                    category: res.category ? res.category : TaskData.category,
+                    description: res.description,
+                });
+                // Navigate("/dashboard");
+            } catch (err) {
+                console.log("Error in hooks/useTaskForm~HandleAISubmit", err);
             } finally {
 
                 setLoading(false);
 
             }
         };
-
+    
     return {
         TaskData,
         Loading,
         UpdateField,
-        HandleSubmit
+        HandleSubmit,
+        HandleAISubmit
     };
 }

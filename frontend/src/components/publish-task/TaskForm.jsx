@@ -5,7 +5,8 @@ import AttachmentUploader from "./AttachmentUploader";
 
 export default function TaskForm({
     TaskData,
-    UpdateField
+    UpdateField,
+    HandleAISubmit
 }) {
     return (
         <div className="space-y-8 bg-transparent p-8 rounded-2xl shadow-md">
@@ -32,10 +33,12 @@ export default function TaskForm({
             />
 
             <DescriptionField
+                TaskData={TaskData}
                 Value={TaskData.description}
                 OnChange={value =>
                     UpdateField("description", value)
                 }
+                handleAISubmit={HandleAISubmit}
             />
 
         </div>
