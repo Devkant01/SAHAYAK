@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, Sparkles, Bell, UserCircle } from "lucide-react";
 import Button from "./Button";
+import AnnouncementBanner from "./AnnouncementBanner";
 
 const NavLinks = [
     { label: "Home", href: "#" },
@@ -45,12 +46,10 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/80 backdrop-blur-md">
+            <AnnouncementBanner />
             <nav className="mx-auto grid max-w-7xl grid-cols-2 md:grid-cols-4 items-center gap-4 px-4 py-3 sm:px-6 lg:px-8">
 
-                <Link
-                    to="/"
-                    className="flex items-center gap-2"
-                >
+                <Link to="/" className="flex items-center gap-2">
                     <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-600 text-white">
                         <Sparkles className="h-5 w-5" />
                     </span>

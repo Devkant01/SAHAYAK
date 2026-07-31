@@ -8,3 +8,19 @@ body {
     margin: 0;
     min-height: 100vh;
 }
+
+@keyframes marquee {
+    from {
+        transform: translateX(0%);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.animate-marquee {
+    display: inline-block;
+    min-width: 100%;
+    animation: marquee 60s linear infinite;
+}
