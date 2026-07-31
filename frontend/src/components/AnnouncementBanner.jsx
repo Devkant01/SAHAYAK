@@ -9,13 +9,18 @@ export default function AnnouncementBanner() {
         let LastScrollY = window.scrollY;
 
         const HandleScroll = () => {
-            if (window.scrollY > LastScrollY && window.scrollY > 80 || close) {
+            const CurrentScrollY = window.scrollY;
+            const Difference = CurrentScrollY - LastScrollY;
+
+            if (Math.abs(Difference) < 8) return;
+
+            if (Difference > 0 && CurrentScrollY > 80) {
                 SetVisible(false);
             } else {
                 SetVisible(true);
             }
 
-            LastScrollY = window.scrollY;
+            LastScrollY = CurrentScrollY;
         };
 
         window.addEventListener("scroll", HandleScroll);
@@ -32,7 +37,7 @@ export default function AnnouncementBanner() {
             className={`sticky top-0 z-50 overflow-hidden bg-gray-200 border-b border-slate-200 transition-all duration-300 ${Visible ? "max-h-10 opacity-100" : "max-h-0 opacity-0 border-b-0"}`}
         >
             <button onClick={()=> setClose(!close)} title="close" className="absolute z-10 right-2 top-1/2 -translate-y-1/2 text-slate-600 hover:text-slate-800 bg-white border rounded-full cursor-pointer">
-                <X></X>
+                <X />
             </button>
             <div className="py-1 whitespace-nowrap animate-marquee text-sm font-medium text-slate-600">
                 🚧 Early Access • Sahayak is currently under active development.
