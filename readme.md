@@ -145,12 +145,13 @@ Sahayak
 │   └── package.json
 │
 ├── backend/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middleware/
-│   ├── models/
-│   ├── utils/
-│   ├── config/
+    ├──src/
+│       ├── controllers/
+│       ├── routes/
+│       ├── middleware/
+│       ├── models/
+│       ├── utils/
+│       ├── config/
 │   └── package.json
 │
 └── README.md
@@ -177,7 +178,7 @@ Before running the project, ensure you have:
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Devkant01/SAHAYAK.git
 ```
 
 Move into the project
@@ -232,37 +233,53 @@ npm start
 
 ---
 
-# Environment Variables
+## Environment Variables
 
-Create a `.env` file inside the backend directory.
+Create separate `.env` files inside the `frontend` and `backend` directories.
 
-Example:
+### Frontend (`frontend/.env`)
 
 ```env
-PORT=
-
-MONGO_URI=
-
-ACCESS_TOKEN_SECRET=
-
-REFRESH_TOKEN_SECRET=
-
-ACCESS_TOKEN_EXPIRY=
-
-REFRESH_TOKEN_EXPIRY=
-
-CLOUDINARY_CLOUD_NAME=
-
-CLOUDINARY_API_KEY=
-
-CLOUDINARY_API_SECRET=
-
-REDIS_URL=
-
-FRONTEND_URL=
+VITE_BACKEND_URL=http://localhost:3000/api/v1
 ```
 
-> Fill these values according to your local environment.
+> For production, set `VITE_BACKEND_URL` to your deployed backend URL.
+
+---
+
+### Backend (`backend/.env`)
+
+```env
+# Server
+NODE_ENV=development
+PORT=3000
+
+# Database
+DATABASE_CONNECTION_STRING=<your_mongodb_connection_string>
+
+# Redis
+REDIS_CONNECTION_STRING=<your_redis_connection_string>
+
+# JWT
+ACCESS_JWT_SECRET=<your_access_jwt_secret>
+REFRESH_JWT_SECRET=<your_refresh_jwt_secret>
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=<your_cloudinary_cloud_name>
+CLOUDINARY_API_KEY=<your_cloudinary_api_key>
+CLOUDINARY_API_SECRET=<your_cloudinary_api_secret>
+
+# Twilio
+TWILIO_ACCOUNT_SID=<your_twilio_account_sid>
+TWILIO_AUTH_TOKEN=<your_twilio_auth_token>
+TWILIO_SERVICE_SID=<your_twilio_service_sid>
+
+# Sandbox API
+SANDBOX_API_KEY=<your_sandbox_api_key>
+SANDBOX_API_SECRET=<your_sandbox_api_secret>
+```
+
+> Replace all placeholder values (`<...>`) with your own credentials before running the application.
 
 ---
 
