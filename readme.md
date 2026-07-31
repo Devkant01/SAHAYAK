@@ -65,11 +65,21 @@ The platform is designed to simplify the process of finding reliable workers whi
 ## Task Management
 
 * Publish Tasks
+* AI-generated task descriptions
 * View Task Details
 * Task Status Tracking
 * Assign Workers
 * Progress Updates
 * Task Completion Workflow
+
+---
+
+## AI Assistance
+
+* AI-powered task description generation
+* Automatic service category suggestion
+* Image-aware description generation using uploaded task photos
+* Supports multiple uploaded images for better context
 
 ---
 
@@ -126,6 +136,7 @@ The platform is designed to simplify the process of finding reliable workers whi
 * JWT
 * bcrypt
 * Cookie Parser
+* Google Gemini AI
 * CORS
 * Multer
 * Cloudinary
@@ -312,7 +323,7 @@ SANDBOX_API_SECRET=<your_sandbox_api_secret>
 
 This project is currently in its **Early Access / Initial Development Phase**.
 
-The core architecture has been implemented successfully. While many essential features are functional, several planned features are still under active development.
+The core architecture has been implemented successfully, including AI-assisted task publishing powered by Google Gemini. While many essential features are functional, several planned features are still under active development.
 
 Some sections of the application may be incomplete or temporarily unavailable.
 
