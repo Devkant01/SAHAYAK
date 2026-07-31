@@ -33,8 +33,9 @@ export default function useTaskForm() {
 
     const HandleSubmit =
         async () => {
-
             try {
+                setLoading(true);
+
                 await PublishTask(
                     TaskData,
                     AccessToken
@@ -49,6 +50,8 @@ export default function useTaskForm() {
                 Navigate("/dashboard");
             } catch (err) {
                 console.log("Error in hooks/useTaskForm~HandleSubmit", err);
+            }finally {
+                setLoading(false);
             }
         };
 
@@ -56,8 +59,6 @@ export default function useTaskForm() {
         async () => {
             console.log("HandleAISubmit called");
             try {
-                setLoading(true);
-
                 const res = await GetDescription(
                     TaskData,
                     AccessToken
@@ -71,10 +72,6 @@ export default function useTaskForm() {
                 // Navigate("/dashboard");
             } catch (err) {
                 console.log("Error in hooks/useTaskForm~HandleAISubmit", err);
-            } finally {
-
-                setLoading(false);
-
             }
         };
     
