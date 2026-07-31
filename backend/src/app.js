@@ -6,11 +6,12 @@ const clientRoutes = require('./routes/client');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const workerRoutes = require('./routes/worker');
+const aiRoutes = require('./routes/ai');
 const cookieParser = require("cookie-parser"); //now we can access cookies via req.cookies
 
 const app = express();
 app.use(cors({
-    origin: "https://sahayak360.vercel.app", // Replace with your frontend URL
+    origin: ["https://sahayak360.vercel.app", "http://localhost:5173"], // Replace with your frontend URL
     credentials: true, // Allow cookies to be sent
 })
 )
@@ -21,6 +22,7 @@ const API_BASE = '/api/v1';
 
 app.use(`${API_BASE}/auth`, authRoutes);
 app.use(`${API_BASE}/user`, userRoutes);
+app.use(`${API_BASE}/ai`, aiRoutes);
 app.use(`${API_BASE}/client`, clientRoutes);
 app.use(`${API_BASE}/worker`, workerRoutes);
 
