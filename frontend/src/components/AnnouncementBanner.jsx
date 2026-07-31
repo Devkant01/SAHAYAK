@@ -12,7 +12,7 @@ export default function AnnouncementBanner() {
             const CurrentScrollY = window.scrollY;
             const Difference = CurrentScrollY - LastScrollY;
 
-            if (Math.abs(Difference) < 8) return;
+            if (Math.abs(Difference) < 15) return;
 
             if (Difference > 0 && CurrentScrollY > 80) {
                 SetVisible(false);
