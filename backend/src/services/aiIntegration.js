@@ -4,21 +4,21 @@ const Ai = new GoogleGenAI({
 });
 
 const workerCategories = new Set([
-    "cook",
-    "plumber",
-    "electrician",
-    "carpenter",
-    "painter",
-    "cleaner",
-    "gardener",
-    "locksmith",
-    "photographer",
-    "appliance-repair",
-    "pest-control",
-    "cctv-installer",
-    "packers-movers",
-    "vehicle-mechanic",
-    "other"
+    "Cook",
+    "Plumber",
+    "Electrician",
+    "Carpenter",
+    "Painter",
+    "Cleaner",
+    "Gardener",
+    "Locksmith",
+    "Photographer",
+    "Appliance-Repair",
+    "Pest-Control",
+    "Cctv-Installer",
+    "Packers-Movers",
+    "Vehicle-Mechanic",
+    "Other"
 ]);
 
 async function GenerateTaskDescription({
