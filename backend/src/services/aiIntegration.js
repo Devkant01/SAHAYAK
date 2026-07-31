@@ -19,6 +19,7 @@ const workerCategories = new Set([
     "cctv-installer",
     "packers-movers",
     "vehicle-mechanic",
+    "other"
 ]);
 
 async function GenerateTaskDescription({
@@ -73,6 +74,10 @@ Instructions:
         });
     });
 
+    Contents.push(workerCategories.size > 0 ? {
+        AvailableCategories: `${Array.from(workerCategories).join(", ")}`
+    } : "");
+
     const Response = await Ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: Contents,
@@ -80,10 +85,7 @@ Instructions:
             responseMimeType: "application/json",
         },
     });
-    console.log("AI Response:", Response.text);
-    if (!workerCategories.has(Response.text.category)) {
-        Response.text.category = "other";
-    }
+    
     return JSON.parse(Response.text);
 }
 
