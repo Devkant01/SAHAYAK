@@ -1,5 +1,5 @@
 const { GoogleGenAI } = require("@google/genai");
-
+console.log("Google GenAI Service Initialized", process.env.GEMINI_API_KEY);
 const Ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
 });
